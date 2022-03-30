@@ -1,1 +1,4 @@
-out/\n*.o\n
+out/
+*.o
+
+Data/
