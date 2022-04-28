@@ -1,30 +1,30 @@
-run: ranking
-	./ranking Data/wb-cs-stanford.txt wb-cs-st.txt 
+NAME		:= ranking
+BUILD_DIR	:= .build
+EXT			:= c
+SRC_DIR		:= src
+CFLAGS		:= -Wall -Wextra -Werror -Ofast -MMD -MP -DNDEBUG
+SRC			:= $(wildcard $(SRC_DIR)/*$(EXT))
+OBJ			:= $(SRC:$(SRC_DIR)/%.$(EXT)=$(BUILD_DIR)/%.o)
 
-ranking : ranking.o list_column.o debug.o IOrank.o vector.o
-	gcc -Wall -o ranking ranking.o list_column.o debug.o IOrank.o vector.o
-	
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
 
-ranking.o : ranking.c list_column.h debug.h IOrank.h vector.h
-	gcc -Wall -c ranking.c
+all: $(NAME)
 
-list_column.o : list_column.c list_column.h
-	gcc -Wall -c list_column.c
+clean:
+	rm -rf $(BUILD_DIR) $(NAME)
 
-vector.o : vector.c vector.h
-	gcc -Wall -c vector.c
+re: clean all
 
-IOrank.o : IOrank.c IOrank.h list_column.o debug.o
-	gcc -Wall -c IOrank.c
+run: $(NAME)
+	./$< data/wb-cs-stanford.txt wb-cs-st.txt 
 
-debug.o : debug.c debug.h
-	gcc -Wall -c debug.c
+$(BUILD_DIR):
+	mkdir $@
 
-debug: ranking
-	valgrind ./ranking  Data/wb-cs-stanford.txt wb-cs-st.txt 
-	./ranking  Data/wb-cs-stanford.txt wb-cs-st.txt 
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.$(EXT) | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-clean :
-	rm -rf *.o
-	rm -rf ranking
-	ls -l
+-include $(OBJ:%.o=%.d)
+
+.PHONY: all clean re run

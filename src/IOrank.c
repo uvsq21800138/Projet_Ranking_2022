@@ -10,9 +10,9 @@
 ///
 // ecriture resultats
 void ecriture_res(FILE *O,long int n, double *res, int cmpt, double al, double ep)	{
-	fprintf(O,"alpha = %e ; epsi = %e ; iter = %d\n",al,ep,cmpt);
+	fprintf(O,"alpha = %lf ; epsi = %lf ; iter = %d\n",al,ep,cmpt);
 	for (int i = 0; i < n; i++)	{
-		fprintf(O,"%e\n",res[i]);
+		fprintf(O,"%lf\n",res[i]);
 	}
 	fclose(O);
 }

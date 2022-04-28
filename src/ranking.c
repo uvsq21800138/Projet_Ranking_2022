@@ -8,6 +8,12 @@
 #include "IOrank.h"
 #include "vector.h"
 
+// Returns the maximum of two numbers
+# define MAX(A, B) ((A) > (B) ? (A) : (B))
+
+// Returns the minimum of two numbers
+# define MIN(A, B) ((A) < (B) ? (A) : (B))
+
 // Variables Globales
 double epsi = 1e-6;
 double alpha = 0.85;
@@ -22,11 +28,7 @@ long int M = 0;
 double norme1_dif(double *opi, double *npi)	{
 	double tmp = 0.0;
 	for (int i = 0; i < N; i++)	{
-		if(npi[i]>opi[i])	{
-			tmp += npi[i] - opi[i];
-		} else {
-			tmp += opi[i] - npi[i];
-		}
+		tmp += MAX(opi[i], npi[i]) - MIN(opi[i], npi[i]);
 	}
 	return (double)tmp;
 }
