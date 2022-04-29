@@ -53,4 +53,5 @@ dkms.conf
 ranking
 
 # Non-source files
+doc/html/
 data/

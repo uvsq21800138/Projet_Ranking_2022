@@ -1,5 +1,6 @@
 NAME		:= ranking
 BUILD_DIR	:= .build
+DOX_DIR		:= doc/html
 EXT			:= c
 SRC_DIR		:= src
 CFLAGS		:= -Wall -Wextra -Werror -Ofast -MMD -MP -DNDEBUG
@@ -12,7 +13,10 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 clean:
-	rm -rf $(BUILD_DIR) $(NAME)
+	rm -rf $(BUILD_DIR) $(DOX_DIR) $(NAME)
+
+doc:
+	doxygen
 
 re: clean all
 
@@ -27,4 +31,4 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.$(EXT) | $(BUILD_DIR)
 
 -include $(OBJ:%.o=%.d)
 
-.PHONY: all clean re run
+.PHONY: all clean doc re run
