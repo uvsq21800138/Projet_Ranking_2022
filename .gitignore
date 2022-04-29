@@ -50,8 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-ranking
 
 # Non-source files
 doc/html/
 data/
+ranking_debug
+ranking_release

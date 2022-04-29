@@ -1,34 +1,56 @@
-NAME		:= ranking
-BUILD_DIR	:= .build
-DOX_DIR		:= doc/html
-EXT			:= c
-SRC_DIR		:= src
-CFLAGS		:= -Wall -Wextra -Werror -Ofast -MMD -MP -DNDEBUG
-SRC			:= $(wildcard $(SRC_DIR)/*$(EXT))
-OBJ			:= $(SRC:$(SRC_DIR)/%.$(EXT)=$(BUILD_DIR)/%.o)
+NAME			:= ranking
+DEBUG_SUFFIX	:= _debug
+RELEASE_SUFFIX	:= _release
+DEBUG_OUTPUT	:= $(NAME)$(DEBUG_SUFFIX)
+RELEASE_OUTPUT	:= $(NAME)$(RELEASE_SUFFIX)
+SRC_EXT			:= .c
+SRC_DIR			:= src
+SRC				:= $(wildcard $(SRC_DIR)/*$(SRC_EXT))
+CC				:= gcc
+CFLAGS			:= -Wall -Wextra -Werror -MMD -MP
+CFLAGS_DEBUG	:= $(CFLAGS) -g3
+CFLAGS_RELEASE	:= $(CFLAGS) -Ofast -DNDEBUG
+BUILD_DIR		:= .build
+OBJ_EXT			:= .o
+OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EXT))
+OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
+DOXYGEN_DIR		:= doc/html
+RUN_ARGS		:= data/wisp.txt 1 0.5 0.85
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $^ -o $@
+all: $(DEBUG_OUTPUT) $(RELEASE_OUTPUT)
 
-all: $(NAME)
+$(DEBUG_OUTPUT): $(OBJ_DEBUG)
+	$(CC) $(CFLAGS_DEBUG) $^ -o $@
+
+$(RELEASE_OUTPUT): $(OBJ_RELEASE)
+	$(CC) $(CFLAGS_RELEASE) $^ -o $@
 
 clean:
-	rm -rf $(BUILD_DIR) $(DOX_DIR) $(NAME)
+	rm -rf $(DEBUG_OUTPUT) $(RELEASE_OUTPUT) $(BUILD_DIR) $(DOXYGEN_DIR)
 
 doc:
 	doxygen
 
 re: clean all
 
-run: $(NAME)
-	./$< data/wb-cs-stanford.txt wb-cs-st.txt 
+run: $(RELEASE_OUTPUT)
+	./$< $(RUN_ARGS)
+
+run-gdb: $(DEBUG_OUTPUT)
+	gdb --args ./$< $(RUN_ARGS)
+
+run-valgrind: $(DEBUG_OUTPUT)
+	valgrind --leak-check=full ./$< $(RUN_ARGS)
 
 $(BUILD_DIR):
 	mkdir $@
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.$(EXT) | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EXT): $(SRC_DIR)/%$(SRC_EXT) | $(BUILD_DIR)
+	$(CC) $(CFLAGS_DEBUG) -c $< -o $@
 
--include $(OBJ:%.o=%.d)
+$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT): $(SRC_DIR)/%$(SRC_EXT) | $(BUILD_DIR)
+	$(CC) $(CFLAGS_RELEASE) -c $< -o $@
 
-.PHONY: all clean doc re run
+-include $(OBJ:%$(OBJ_EXT)=%.d)
+
+.PHONY: all clean doc re run run-gdb run-valgrind
