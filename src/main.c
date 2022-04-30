@@ -33,7 +33,7 @@ static int show_usage(const char *binary_name)
 		"  <alpha>...  The alpha values to use\n\n"
 		"Example: %s graph.txt 10 0.5 0.8 0.85 0.9\n"
 		"  -> Generates 10 subgraphs from the graph.txt file by removing half of the vertices.\n"
-		"  -> Then it will run PageRank for the following alpha values: 0.8 0.85 and 0.9.",
+		"  -> Then it will run PageRank for the following alpha values: 0.8 0.85 and 0.9.\n",
 		binary_name, binary_name);
 	return EXIT_FAILURE;
 }
@@ -119,14 +119,21 @@ int main(int ac, char **av)
 	else // We can run PageRank
 	{
 		srandom(time(NULL));
+		puts("original graph:");
 		//matrix_print(m, stdout);
 		(void)n;
-		(void)r;
 		f64 *pi = malloc(m->vertices_count * sizeof(*pi));
 		vect_set(pi, m->vertices_count, 1.0 / m->vertices_count);
 		s64 iterations = pagerank(m, 0.85, 1e-6, pi);
-		printf("iterations: %ld\n", (long)iterations);
+		vect_print(pi, m->vertices_count, stdout);
+		printf("Iterations: %ld\n", (long)iterations);
 		free(pi);
+
+		bitset *removed_set = malloc(bitset_size(m->vertices_count) * sizeof(*removed_set));
+		matrix *m2 = matrix_init(m->vertices_count, m->edges_count);
+		matrix_generate_subgraph(m2, m, r * m->vertices_count, removed_set);
+		puts("subgraph:");
+		//matrix_print(m2, stdout);
 	}
 
 	// Final cleanup

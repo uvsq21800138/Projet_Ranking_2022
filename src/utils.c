@@ -5,12 +5,6 @@
 #include <string.h>
 #include "utils.h"
 
-void exit_fatal(const char *func)
-{
-	fprintf(stderr, "error: %s: %s\n", func, get_errno_error());
-	exit(EXIT_FAILURE);
-}
-
 const char *get_errno_error()
 {
 	return strerror(errno);

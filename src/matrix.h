@@ -1,6 +1,6 @@
 #pragma once
 #include <stdio.h>
-#include "types.h"
+#include "bitset.h"
 
 /** An edge of the spare matrix. */
 typedef struct s_edge
@@ -31,8 +31,17 @@ typedef struct s_matrix
  */
 void matrix_destroy(matrix *m);
 
-// Generates n graphs with r the ratio of the number of vertices to remove
-void matrix_generate_dataset(const char *path, f64 r, usize n);
+/**
+ * Generate a subgraph based on the given matrix with n random vertices removed.
+ * The dst matrix must be allocated and have enough space to store the subgraph.
+ * The removed vertices are stored in the given bitset of size src->vertices_count.
+ * @param dst The destination matrix.
+ * @param src The source matrix.
+ * @param n The number of vertices to remove.
+ * @param removed_set The set of removed vertices.
+ * @return -1 on error, 0 otherwise.
+ */
+int matrix_generate_subgraph(matrix *dst, const matrix *src, u32 n, bitset *removed_set);
 
 /**
  * Initializes a new matrix from a file.

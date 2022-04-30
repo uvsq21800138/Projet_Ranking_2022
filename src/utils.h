@@ -1,9 +1,6 @@
 #pragma once
 #include "types.h"
 
-// TODO: Remove this
-void exit_fatal(const char *func);
-
 /**
  * Returns the error message of the last error using the errno variable.
  * @return The error message.

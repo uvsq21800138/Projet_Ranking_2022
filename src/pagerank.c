@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
-#include "bitset.h"
+#include <string.h>
 #include "macros.h"
 #include "pagerank.h"
 
@@ -19,7 +19,7 @@ static void init_f(const matrix *m, bitset *f)
 /**
  * Computes r = x * f'.
  * @param x The row vector.
- * @param f The column vector.
+ * @param f The bitset as a column vector.
  * @param n The size of both vectors.
  * @return The result of the multiplication as a scalar.
  */
@@ -51,6 +51,7 @@ s64 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 {
 	assert(IN_BOUNDS(0, alpha, 1));
 	assert(IN_BOUNDS(0, epsilon, 1));
+
 	u64 n = m->vertices_count;
 	f64 *pi[2] = { init_vect, malloc(n * sizeof(f64)) };
 	bitset *f = calloc(1, bitset_size(n));
@@ -60,7 +61,8 @@ s64 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 		free(f);
 		return -1;
 	}
-	f64 inv = 1.0 / n;
+
+	const f64 inv = 1.0 / n;
 	s64 i = 0;
 	init_f(m, f);
 	do
@@ -72,7 +74,9 @@ s64 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 		vect_mul_add_f64(new_pi, n, alpha, s);
 		++i;
 	}	while (vect_norm1(pi[0], pi[1], n) > epsilon);
-	vect_print(pi[(i + 1) % 2], n, stdout);
+	if (!(i % 2))
+		memcpy(init_vect, pi[1], n * sizeof(*pi[1]));
+
 	free(pi[1]);
 	free(f);
 	return i;
