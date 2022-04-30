@@ -3,6 +3,7 @@
 #include <string.h>
 #include "macros.h"
 #include "pagerank.h"
+#include "vect.h"
 
 /*
 * Initializes f such as f[i] = 1 if the outdegree of vertex i is 0, 0 otherwise.
@@ -47,7 +48,7 @@ static void vect_mul_p(f64 *r, const f64 *x, const matrix *p)
 			r[it->y] += x[i] * it->w;
 }
 
-s64 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
+s32 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 {
 	assert(IN_BOUNDS(0, alpha, 1));
 	assert(IN_BOUNDS(0, epsilon, 1));
@@ -63,7 +64,7 @@ s64 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 	}
 
 	const f64 inv = 1.0 / n;
-	s64 i = 0;
+	s32 i = 0;
 	init_f(m, f);
 	do
 	{

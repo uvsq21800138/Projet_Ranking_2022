@@ -15,7 +15,8 @@ OBJ_EXT			:= .o
 OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EXT))
 OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
 DOXYGEN_DIR		:= doc/html
-RUN_ARGS		:= data/wisp.txt 1 0.5 0.85
+GRAPH_FILE		:= data/wisp.txt
+RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).csv 1 0.5 0.85
 
 all: $(DEBUG_OUTPUT) $(RELEASE_OUTPUT)
 

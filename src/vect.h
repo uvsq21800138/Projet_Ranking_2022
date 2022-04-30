@@ -22,9 +22,9 @@ void vect_add(f64 *r, const f64 *v, usize n);
  * Performs the following operation:
  * v = v * f + g.
  * @param v The result vector.
+ * @param n The size of the vector.
  * @param f The floating point number to multiply with.
  * @param g The floating point number to add.
- * @param n The size of the vector.
  */
 void vect_mul_add_f64(f64 *v, usize n, f64 f, f64 g);
 

@@ -22,3 +22,11 @@ int parse_f64(const char *str, f64 *f);
  * @return 0 if the string is a valid number, -1 otherwise (errno is set).
  */
 int parse_u32(const char *str, u32 *u);
+
+/**
+ * Prints an error message on stderr.
+ * @param context The context of the error.
+ * @param message The error message. If NULL, the last error from errno is used.
+ * @return Always 1.
+ */
+int print_error(const char *context, const char *message);

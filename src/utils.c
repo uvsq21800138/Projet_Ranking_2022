@@ -33,3 +33,9 @@ int parse_u32(const char *str, u32 *u)
 	*u = n;
 	return -(errno != 0);
 }
+
+int print_error(const char *context, const char *message)
+{
+	fprintf(stderr, "error: %s: %s\n", context, (message ? message : get_errno_error()));
+	return 1;
+}

@@ -1,22 +1,10 @@
 #include <stdlib.h>
 #include <time.h>
+#include "constants.h"
 #include "pagerank.h"
+#include "parser.h"
+#include "vect.h"
 #include "utils.h"
-
-#define DEFAULT_BINARY_NAME "ranking"
-#define MAX_ALPHAS_VALUES 16
-
-/**
- * Prints an error message.
- * @param context The context of the error.
- * @param message The error message. If NULL, the last error from errno is used.
- * @return Always 1.
- */
-static int print_error(const char *context, const char *message)
-{
-	fprintf(stderr, "error: %s: %s\n", context, (message ? message : get_errno_error()));
-	return 1;
-}
 
 /**
  * Prints a usage message.
@@ -26,119 +14,130 @@ static int print_error(const char *context, const char *message)
 static int show_usage(const char *binary_name)
 {
 	fprintf(stderr,
-		"Usage: %s <file> <n> <r> <alpha>...\n"
-		"  <file>      The file where the graph is stored.\n"
-		"  <n>         The number of subgraphs to generate.\n"
-		"  <r>         The ratio of the number of vertices to remove.\n"
-		"  <alpha>...  The alpha values to use\n\n"
-		"Example: %s graph.txt 10 0.5 0.8 0.85 0.9\n"
-		"  -> Generates 10 subgraphs from the graph.txt file by removing half of the vertices.\n"
-		"  -> Then it will run PageRank for the following alpha values: 0.8 0.85 and 0.9.\n",
+		"Usage: %s <input_file> <output_file> <n> <r> <alpha>...\n"
+		"  <input_file>   The file where the graph is stored.\n"
+		"  <output_file>  The file where the results will be stored.\n"
+		"  <n>            The number of subgraphs to generate.\n"
+		"  <r>            The ratio of the number of vertices to remove.\n"
+		"  <alpha>...     The alpha values to use\n\n"
+		"Example: %s graph.txt data.csv 10 0.5 0.8 0.85 0.9\n"
+		"  -> Generates 10 subgraphs from the graph.txt file by removing half of the vertices\n"
+		"  -> Then it will run PageRank for the following alpha values: 0.8 0.85 and 0.9\n"
+		"  -> The results will be stored in data.csv\n"
+		"  -> Each line contains the following informations:\n"
+		"     pagerank_iterations, proportion_of_removed_vertices, proportion_of_removed_edges, number_of_empty_pages, iterations_alpha_1, iterations_alpha_2...\n",
 		binary_name, binary_name);
 	return EXIT_FAILURE;
 }
-
-static FILE *parse_file(const char *path, int *ec)
+/**
+ * Generates the output file.
+ * @param output_file The file where the results will be stored.
+ * @param m The matrix of the orginal graph.
+ * @param n The number of subgraphs to generate.
+ * @param removed_vertices_count The number of vertices to remove.
+ * @param alpha_values The alpha values to use.
+ * @param alpha_values_count The number of alpha values.
+ */
+static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed_vertices_count, const f64 *alpha_values, usize alpha_values_count)
 {
-	FILE *file = fopen(path, "r");
-	if (!file)
-		(*ec) += print_error(path, NULL);
-	return file;
-}
+	u32 vc = m->vertices_count;
+	usize init_pi_memb_size = vc * sizeof(f64);
+	usize init_pi_size = alpha_values_count * init_pi_memb_size;
+	usize pi_size = (vc - removed_vertices_count) * sizeof(f64);
 
-static u32 parse_number_of_subgraphs(const char *arg, int *ec)
-{
-	u32 n;
-	if (parse_u32(arg, &n) < 0)
-		(*ec) += print_error(arg, NULL);
-	else if (!n)
-		(*ec) += print_error(arg, "The number of subgraphs must be positive.");
-	return n;
-}
+	f64 *init_pi = malloc(init_pi_size);
+	f64 *pi = malloc(pi_size);
+	matrix *subgraph = matrix_init(vc, m->edges_count);
+	bitset *removed_set = malloc(bitset_size(vc) * sizeof(*removed_set));
 
-static f64 parse_ratio(const char *arg, int *ec)
-{
-	f64 r;
-	if (parse_f64(arg, &r) < 0)
-		(*ec) += print_error(arg, NULL);
-	else if (r < 0 || r > 1)
-		(*ec) += print_error(arg, "The ratio must be between 0 and 1.");
-	return r;
-}
-
-static f64 *parse_alpha_values(char * const *args, usize n, int *ec)
-{
-	const char *var_name = "alphas";
-	f64 *alpha_values = NULL;
-	if (n > MAX_ALPHAS_VALUES)
-		(*ec) += print_error(var_name, "Too many alpha values.");
-	else
+	printf("Generating %u subgraphs with %u removed vertices...\n", n, removed_vertices_count);
+	if (init_pi && pi && subgraph && removed_set)
 	{
-		alpha_values = malloc(n * sizeof(*alpha_values));
-		if (alpha_values)
-		{
-			for (usize i = 0; i < n; ++i)
-			{
-				if (parse_f64(args[i], alpha_values + i) < 0)
-					(*ec) += print_error(args[i], NULL);
-				else if (alpha_values[i] < 0 || alpha_values[i] > 1)
-					(*ec) += print_error(args[i], "The alpha value must be between 0 and 1.");
-			}
-		}
-		else
-			(*ec) += print_error(var_name, NULL);
-	}
-	return alpha_values;
-}
+		srandom(time(NULL));
 
-static matrix *parse_matrix(const char *path, FILE *file, int *ec)
-{
-	if (!file)
-		return NULL;
-	matrix *m = matrix_init_from_file(file);
-	if (!m)
-		(*ec) += print_error(path, NULL);
-	return m;
+		// We compute the initial PageRank for each alpha value
+		vect_set(init_pi, alpha_values_count * vc, 1.0 / vc);
+		s32 pagerank_iterations;
+		for (usize i = 0; i < alpha_values_count; ++i)
+			pagerank_iterations = pagerank(m, alpha_values[i], EPSILON, init_pi + i * vc);
+
+		// Then we generate n subgraphs and compute their PageRank for each alpha value
+		f64 percent_factor = 100.0 / n;
+		f64 percent = 0;
+		for (u32 i = 0; i < n; ++i)
+		{
+			if (matrix_generate_subgraph(subgraph, m, removed_vertices_count, removed_set) < 0)
+			{
+				print_error("matrix_generate_subgraph", NULL);
+				break ;
+			}
+			u32 number_of_empty_pages = 0;
+			for (u32 j = 0; j < subgraph->vertices_count; ++j)
+				if (!matrix_row_count(subgraph, j))
+					++number_of_empty_pages;
+			fprintf(output_file, "%d, %lg, %lg, %u", pagerank_iterations,
+				(f64)removed_vertices_count / vc,
+				(f64)(m->edges_count - subgraph->edges_count) / m->edges_count, number_of_empty_pages);
+			for (usize j = 0; j < alpha_values_count; ++j)
+			{
+				const f64 *t = init_pi + j * vc;
+				// Sum of non removed vertices
+				f64 s = 0;
+				for (u32 j = 0; j < vc; ++j)
+					if (!bitset_is_set(removed_set, j))
+						s += t[j];
+				// Normalization
+				for (u32 j = 0, k = 0; j < vc; ++j)
+					if (!bitset_is_set(removed_set, j))
+						pi[k++] = t[j] / s;
+				// Computes PageRank using the custom initial vector
+				s32 iterations = pagerank(subgraph, alpha_values[j], EPSILON, pi);
+				fprintf(output_file, ", %d", iterations);
+			}
+			fputc('\n', output_file);
+			percent += percent_factor;
+			printf("\r%.2lf%%", percent);
+			fflush(stdout);
+		}
+		putchar('\n');
+	}
+	else
+		print_error("generate_data", NULL);
+
+	free(init_pi);
+	free(pi);
+	free(subgraph);
+	free(removed_set);
 }
 
 int main(int ac, char **av)
 {
-	if (ac < 5) // Not enough arguments
+	if (ac < 6) // Not enough arguments
 		return show_usage(ac ? av[0] : DEFAULT_BINARY_NAME);
-	
+
 	// Parse arguments
 	int errors_count = 0;
-	FILE *file = parse_file(av[1], &errors_count);
-	u32 n = parse_number_of_subgraphs(av[2], &errors_count);
-	f64 r = parse_ratio(av[3], &errors_count);
-	f64 *alpha_values = parse_alpha_values(av + 4, ac - 4, &errors_count);
-	matrix *m = parse_matrix(av[1], file, &errors_count);
+	FILE *input_file = parse_file(av[1], "r", &errors_count);
+	FILE *output_file = parse_file(av[2], "w", &errors_count);
+	u32 n = parse_number_of_subgraphs(av[3], &errors_count);
+	f64 r = parse_ratio(av[4], &errors_count);
+	usize alpha_values_count = ac - 5;
+	f64 *alpha_values = parse_alpha_values(av + 5, alpha_values_count, &errors_count);
+	matrix *m = input_file ? parse_matrix(av[1], input_file, &errors_count) : NULL;
+	u32 removed_vertices_count = m ? m->vertices_count * r : 0;
 
+	if (m && removed_vertices_count == m->vertices_count)
+		errors_count += print_error("r", "The given ratio is too high");
 	if (errors_count)
 		fprintf(stderr, "%d error%s found.\n", errors_count, (errors_count > 1 ? "s" : ""));
 	else // We can run PageRank
-	{
-		srandom(time(NULL));
-		puts("original graph:");
-		//matrix_print(m, stdout);
-		(void)n;
-		f64 *pi = malloc(m->vertices_count * sizeof(*pi));
-		vect_set(pi, m->vertices_count, 1.0 / m->vertices_count);
-		s64 iterations = pagerank(m, 0.85, 1e-6, pi);
-		vect_print(pi, m->vertices_count, stdout);
-		printf("Iterations: %ld\n", (long)iterations);
-		free(pi);
-
-		bitset *removed_set = malloc(bitset_size(m->vertices_count) * sizeof(*removed_set));
-		matrix *m2 = matrix_init(m->vertices_count, m->edges_count);
-		matrix_generate_subgraph(m2, m, r * m->vertices_count, removed_set);
-		puts("subgraph:");
-		//matrix_print(m2, stdout);
-	}
+		generate_data(output_file, m, n, removed_vertices_count, alpha_values, alpha_values_count);
 
 	// Final cleanup
-	if (file)
-		fclose(file);
+	if (input_file)
+		fclose(input_file);
+	if (output_file)
+		fclose(output_file);
 	free(alpha_values);
 	matrix_destroy(m);
 
