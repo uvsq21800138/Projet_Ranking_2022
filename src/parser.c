@@ -27,33 +27,8 @@ f64 parse_ratio(const char *arg, int *ec)
 	if (parse_f64(arg, &r) < 0)
 		(*ec) += print_error(arg, NULL);
 	else if (r < 0 || r > 1)
-		(*ec) += print_error(arg, "The ratio must be between 0 and 1.");
+		(*ec) += print_error(arg, "The value must be between 0 and 1.");
 	return r;
-}
-
-f64 *parse_alpha_values(char * const *args, usize n, int *ec)
-{
-	const char *var_name = "alphas";
-	f64 *alpha_values = NULL;
-	if (n > MAX_ALPHAS_VALUES)
-		(*ec) += print_error(var_name, "Too many alpha values.");
-	else
-	{
-		alpha_values = malloc(n * sizeof(*alpha_values));
-		if (alpha_values)
-		{
-			for (usize i = 0; i < n; ++i)
-			{
-				if (parse_f64(args[i], alpha_values + i) < 0)
-					(*ec) += print_error(args[i], NULL);
-				else if (alpha_values[i] < 0 || alpha_values[i] > 1)
-					(*ec) += print_error(args[i], "The alpha value must be between 0 and 1.");
-			}
-		}
-		else
-			(*ec) += print_error(var_name, NULL);
-	}
-	return alpha_values;
 }
 
 matrix *parse_matrix(const char *path, FILE *file, int *ec)

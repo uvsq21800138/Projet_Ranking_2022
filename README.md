@@ -1,5 +1,5 @@
 # Projet_Ranking_2022
-Projet de Methode de Ranking - sujet 3
+Projet de Methode de Ranking - Sujet 3
 
 ## Compilation
 ```bash
@@ -23,6 +23,11 @@ make run
 Est un exemple de son utilisation.
 
 Remarque : Il faut ajouter le dossier _data/_ au dossier de travail avec les bases de données pour pouvoir les utiliser.
+
+Pour utiliser les options de débogage, il suffit de faire :
+```bash
+make [ run-gdb | run-valgrind ]
+```
 
 ## Documentation
 ```bash

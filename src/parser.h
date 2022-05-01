@@ -29,17 +29,6 @@ u32 parse_number_of_subgraphs(const char *arg, int *ec);
 f64 parse_ratio(const char *arg, int *ec);
 
 /**
- * Parse the alpha values to use.
- * Allocates the array and increments the errors counter if an error occured.
- * The array must be freed by the caller.
- * @param args The arguments to parse.
- * @param n The number of arguments.
- * @param ec The errors counter.
- * @return An array of alpha values to use or NULL if an error occured.
- */
-f64 *parse_alpha_values(char * const *args, usize n, int *ec);
-
-/**
  * Parse the graph file.
  * @param path The original path of the file.
  * @param file The file to parse.
