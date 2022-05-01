@@ -1,15 +1,31 @@
 # Projet_Ranking_2022
 Projet de Methode de Ranking - sujet 3
 
-Voilà déjà l'algo de ***PageRank*** qui fonctionne. 
-
-*Exécution* : 
-```bash 
-make [run | debug | clean]
+## Compilation
+```bash
+make all
 ```
---> détails dans le _Makefile_
+Génère le binaire du programme en deux exemplaires :
+- ranking_debug
+- ranking_release
 
-Il faut ajouter le dossier _data/_ au dossier de travail avec les bases de données pour pouvoir exécuter telquel (cf _Makefile_). 
-Une fois le projet commencé, on devra retirer le _Data/_ du _.gitignore_ ou avoir un autre dossier pour conserver les graphes du web qu'on étudit.
+Le premier est uniquement à des fins de débogage, le second est à des fins de production.
 
-**Bon courage !**
+## Exécution
+```bash
+./ranking_release
+```
+Affiche l'aide du programme.
+
+```bash
+make run
+```
+Est un exemple de son utilisation.
+
+Remarque : Il faut ajouter le dossier _data/_ au dossier de travail avec les bases de données pour pouvoir les utiliser.
+
+## Documentation
+```bash
+make doc
+```
+Génère la documentation du programme. L'ensemble des fichiers sources est documenté. La documentation est générée dans le dossier doc. Pour y accéder, il suffit d'ouvrir le fichier doc/html/index.html dans un navigateur web.
