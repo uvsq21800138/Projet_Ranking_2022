@@ -16,16 +16,16 @@ make
 mkdir datastudy
 
 ########################################################## Variables
-let _start=5
-let _staticAlpha=0.5
-let _staticRatio=0.3
+_start=5
+_staticAlpha=0.5
+_staticRatio=0.3
 
 ########################################################## Lancement des études
 
 ### wb-cs-stanford ###
-let _graphe=wb-cs-stanford
-let _id=1
-let _end=100
+_graphe=wb-cs-stanford
+_id=1
+_end=100
 
 printf "/// Etude de %s (%s/6) ///\n" ${_graphe} ${_id}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits"
