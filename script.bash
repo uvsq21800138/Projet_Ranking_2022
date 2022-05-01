@@ -28,19 +28,21 @@ _id=1
 _end=100
 
 printf "/// Etude de %s (%s/6) ///\n" ${_graphe} ${_id}
-printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits"
+printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
 for ((c = ${_start}; c < ${_end}; c+5))
 do
-./ranking_release data/${_graphe}.txt datastudy/${_graphe}_ratio.csv 1 $((${c}/100)) ${_staticAlpha}
+_ratio="scale=2; ${c}/100 | bc"
+./ranking_release data/${_graphe}.txt datastudy/${_graphe}_ratio.csv 1 ${_ratio} ${_staticAlpha}
 progressBar ${c} ${_end}
 done
 
 _end=90
 
-printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha"
+printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha\n"
 for ((c = ${_start}; c < ${_end}; c+5))
 do
-./ranking_release data/${_graphe}.txt datastudy/${_graphe}_alpha.csv 1 ${_staticRatio} $((${c}/100))
+_alpha="scale=2; ${c}/100 | bc"
+./ranking_release data/${_graphe}.txt datastudy/${_graphe}_alpha.csv 1 ${_staticRatio} ${_alpha}
 progressBar ${c} ${_end}
 done
 
