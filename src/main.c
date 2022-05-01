@@ -114,7 +114,7 @@ int main(int ac, char **av)
 	// Parse arguments
 	int errors_count = 0;
 	FILE *input_file = parse_file(av[1], "r", &errors_count);
-	FILE *output_file = parse_file(av[2], "w", &errors_count);
+	FILE *output_file = parse_file(av[2], "a", &errors_count);
 	u32 n = parse_number_of_subgraphs(av[3], &errors_count);
 	f64 r = parse_ratio(av[4], &errors_count);
 	f64 alpha = parse_ratio(av[5], &errors_count);
