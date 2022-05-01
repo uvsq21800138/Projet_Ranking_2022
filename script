@@ -1,11 +1,5 @@
-########################################################## Variables
-_start=5
-_end=100
-_staticAlpha=0.5
-_staticRatio=0.3
-
 ########################################################## Fonction ProgressBar
-function ProgressBar
+function progressBar
 {
     let _progress=(${1}*100/${2}*100)/100
     let _done=(${_progress}*4)/10
@@ -20,42 +14,54 @@ function ProgressBar
 ########################################################## Compilation du programme
 make
 
-########################################################## Pour chaque graphe, lancement de l'étude
+########################################################## Variables
+_start=5
+_staticAlpha=0.5
+_staticRatio=0.3
 
-######### wb-cs-stanford #########
+########################################################## Lancement des études
+
+### wb-cs-stanford ###
 _graphe=wb-cs-stanford
-_num=1
+_id=1
+_end=100
 
-printf "/// Etude de %s (%s/6) ///\n" "_graphe" "_num"
+printf "/// Etude de %s (%s/6) ///\n" ${_graphe} ${_id}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits"
-for ((c = _start; c < _end; c+5))
+for ((c = ${_start}; c < ${_end}; c+5))
 do
-./ranking_release _graphe _graphe.csv 1 c/100 _staticAlpha
-ProgressBar ${c} ${_end}
+./ranking_release data/${_graphe}.txt datastudy/${_graphe}ratio.csv 1 $((${c}/100)) ${_staticAlpha}
+progressBar ${c} ${_end}
 done
 
-printf "Etude de %s (%s/6)\n" "_graphe" "_num"
+_end=90
+
 printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha"
-for ((c = _start; c < _end; c+5))
+for ((c = ${_start}; c < ${_end}; c+5))
 do
-./ranking_release _graphe _graphe.csv 1 _staticRatio c/100
-ProgressBar ${c} ${_end}
+./ranking_release data/${_graphe}.txt datastudy/${_graphe}alpha.csv 1 ${_staticRatio} $((${c}/100))
+progressBar ${c} ${_end}
 done
 
-######### wb-cs-stanford #########
-printf "Etude de Stanford (2/6)\n"
+### Stanford ###
 
-######### wb-cs-stanford #########
-printf "Etude de StanfordBerkeley (3/6)\n"
 
-######### wb-cs-stanford #########
-printf "Etude de Inde (4/6)\n"
 
-######### wb-cs-stanford #########
-printf "Etude de Web_edu (5/6)\n"
+### Stanford_BerkeleyV2 ###
 
-######### wb-cs-stanford #########
-printf "Etude de Wikipedia2005 (6/6)\n"
+
+
+### in-2004v2 ###
+
+
+
+### wb-edu.txt ###
+
+
+
+### wikipedia-20051105V2 ###
+
+
 
 ########################################################## Génération des graphiques
 printf "Génération des graphiques en cours...\n"

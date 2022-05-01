@@ -1,43 +1,35 @@
-### TESTS ###
-modelname = "datastudy/graphetest.data"
+### wb-cs-stanford ###
+modelname = "datastudy/wb-cs-stanfordratio.csv"
 data = read.table(modelname)
 attach(data);
 
-NbItérationsAvantConvergencePagerank = V1
-NbItérationsAvantConvergenceCustom = V2
-ProportionSommetsDétruits = V3
-ProportionArcsDétruits = V4
-Alpha = V5
+alpha = V1
+nbIterationsPagerank = V2
+nbIterationsCustom = V3
+ratioSommetsDetruits = V4
+ratioArcsDetruits = V5
 
-plot(NbItérationsAvantConvergence, NbSommetsDétruits, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Proportion de sommets détruits",
-col = "red", main = "Nombre d'itérations avant convergence selon la proportion de sommets détruits, alpha = 0.3")
+plot(ratioSommetsDetruits, nbIterationsPagerank, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
+col = "blue", main = "Nombre d'itérations avant convergence selon le ratio de sommets détruits, alpha = 0.3")
 
-### Etude wb-cs-stanford ###
-modelname = "datastudy/wb-cs-stanford.data"
-data = read.table(modelname)
-attach(data);
+points(ratioSommetsDetruits, nbIterationsCustom, col = "red")
+lines(ratioSommetsDetruits, nbIterationsCustom, col = "red")
 
-### Etude Stanford ###
-modelname = "datastudy/Stanford.data"
-data = read.table(modelname)
-attach(data);
+### Stanford ###
 
-### Etude StanfordBerkeley ###
-modelname = "datastudy/StanfordBerkeley.data"
-data = read.table(modelname)
-attach(data);
 
-### Etude Inde ###
-modelname = "datastudy/Inde.data"
-data = read.table(modelname)
-attach(data);
 
-### Etude Web_edu ###
-modelname = "datastudy/Web_edu.data"
-data = read.table(modelname)
-attach(data);
+### Stanford_BerkeleyV2 ###
 
-### Etude Wikipedia2005 ###
-modelname = "datastudy/Wikipedia2005.data"
-data = read.table(modelname)
-attach(data);
+
+
+### in-2004v2 ###
+
+
+
+### wb-edu.txt ###
+
+
+
+### wikipedia-20051105V2 ###
+
