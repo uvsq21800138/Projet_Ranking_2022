@@ -11,6 +11,7 @@ CFLAGS			:= -Wall -Wextra -Werror -MMD -MP
 CFLAGS_DEBUG	:= $(CFLAGS) -g3
 CFLAGS_RELEASE	:= $(CFLAGS) -Ofast -DNDEBUG
 BUILD_DIR		:= .build
+STUDY_DIR		:= datastudy/
 OBJ_EXT			:= .o
 OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EXT))
 OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
@@ -27,7 +28,7 @@ $(RELEASE_OUTPUT): $(OBJ_RELEASE)
 	$(CC) $(CFLAGS_RELEASE) $^ -o $@
 
 clean:
-	rm -rf $(DEBUG_OUTPUT) $(RELEASE_OUTPUT) $(BUILD_DIR) $(DOXYGEN_DIR)
+	rm -rf $(DEBUG_OUTPUT) $(RELEASE_OUTPUT) $(BUILD_DIR) $(DOXYGEN_DIR) $(STUDY_DIR)
 
 doc:
 	doxygen

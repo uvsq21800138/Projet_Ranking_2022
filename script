@@ -16,22 +16,22 @@ make
 mkdir datastudy
 
 ########################################################## Variables
-_start=5
-_staticAlpha=0.5
-_staticRatio=0.3
+let _start=5
+let _staticAlpha=0.5
+let _staticRatio=0.3
 
 ########################################################## Lancement des études
 
 ### wb-cs-stanford ###
-_graphe=wb-cs-stanford
-_id=1
-_end=100
+let _graphe=wb-cs-stanford
+let _id=1
+let _end=100
 
 printf "/// Etude de %s (%s/6) ///\n" ${_graphe} ${_id}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits"
 for ((c = ${_start}; c < ${_end}; c+5))
 do
-./ranking_release data/${_graphe}.txt datastudy/${_graphe}ratio.csv 1 $((${c}/100)) ${_staticAlpha}
+./ranking_release data/${_graphe}.txt datastudy/${_graphe}_ratio.csv 1 $((${c}/100)) ${_staticAlpha}
 progressBar ${c} ${_end}
 done
 
@@ -40,7 +40,7 @@ _end=90
 printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha"
 for ((c = ${_start}; c < ${_end}; c+5))
 do
-./ranking_release data/${_graphe}.txt datastudy/${_graphe}alpha.csv 1 ${_staticRatio} $((${c}/100))
+./ranking_release data/${_graphe}.txt datastudy/${_graphe}_alpha.csv 1 ${_staticRatio} $((${c}/100))
 progressBar ${c} ${_end}
 done
 
