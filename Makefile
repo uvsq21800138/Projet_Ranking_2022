@@ -19,7 +19,7 @@ OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EX
 OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
 DOXYGEN_DIR		:= doc/html
 GRAPH_FILE		:= data/wb-cs-stanford.txt
-RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).csv 100 0.5 0.85
+RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).data 100 0.5 0.85
 
 all: $(DEBUG_OUTPUT) $(RELEASE_OUTPUT)
 

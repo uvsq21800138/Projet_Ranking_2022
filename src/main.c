@@ -22,12 +22,12 @@ static int show_usage(const char *binary_name)
 		"  <n>            The number of subgraphs to generate.\n"
 		"  <r>            The ratio of the number of vertices to remove.\n"
 		"  <alpha>        The alpha value to use\n\n"
-		"Example: %s graph.txt data.csv 10 0.5 0.85\n"
+		"Example: %s graph.txt output.data 10 0.5 0.85\n"
 		"  -> Generates 10 subgraphs from the graph.txt file by removing half of the vertices\n"
 		"  -> Then it will run PageRank for the following alpha values: 0.85\n"
-		"  -> The results will be stored in data.csv\n"
+		"  -> The results will be stored in output.data\n"
 		"  -> Each line contains the following informations:\n"
-		"     alpha, pagerank_iterations, custom_pagerank_iterations, proportion_of_removed_vertices, proportion_of_removed_edges, proportion_of_empty_pages\n",
+		"     alpha pagerank_iterations custom_pagerank_iterations proportion_of_removed_vertices proportion_of_removed_edges proportion_of_empty_pages\n",
 		binary_name, binary_name);
 	return EXIT_FAILURE;
 }
@@ -86,7 +86,7 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 			// Computes PageRank using the custom initial vector
 			s32 iterations = pagerank(subgraph, alpha, EPSILON, pi);
 			// Write the results to the output file
-			fprintf(output_file, "%lg, %d, %d, %lg, %lg, %lg\n", alpha, pagerank_iterations,
+			fprintf(output_file, "%lg %d %d %lg %lg %lg\n", alpha, pagerank_iterations,
 				iterations, (f64)removed_vertices_count / vc,
 				(f64)(m->edges_count - subgraph->edges_count) / m->edges_count,
 				(f64)number_of_empty_pages / subgraph->vertices_count);
