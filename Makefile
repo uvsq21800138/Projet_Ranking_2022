@@ -3,6 +3,8 @@ DEBUG_SUFFIX	:= _debug
 RELEASE_SUFFIX	:= _release
 DEBUG_OUTPUT	:= $(NAME)$(DEBUG_SUFFIX)
 RELEASE_OUTPUT	:= $(NAME)$(RELEASE_SUFFIX)
+R_OUTPUT		:= study.Rout
+PDF				:= *.pdf
 SRC_EXT			:= .c
 SRC_DIR			:= src
 SRC				:= $(wildcard $(SRC_DIR)/*$(SRC_EXT))
@@ -28,7 +30,7 @@ $(RELEASE_OUTPUT): $(OBJ_RELEASE)
 	$(CC) $(CFLAGS_RELEASE) $^ -o $@
 
 clean:
-	rm -rf $(DEBUG_OUTPUT) $(RELEASE_OUTPUT) $(BUILD_DIR) $(DOXYGEN_DIR) $(STUDY_DIR)
+	rm -rf $(DEBUG_OUTPUT) $(RELEASE_OUTPUT) $(BUILD_DIR) $(DOXYGEN_DIR) $(STUDY_DIR) $(R_OUTPUT) $(PDF)
 
 doc:
 	doxygen
