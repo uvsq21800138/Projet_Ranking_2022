@@ -1,7 +1,9 @@
+# Indication du répertoire source
+setwd("/datastudy")
+
 ### wb-cs-stanford ###
 # ratio
-modelname = "datastudy/wb-cs-stanford_ratio.csv"
-data = read.table(modelname)
+data = read.table("wb-cs-stanford_ratio.csv")
 attach(data);
 
 alpha = V1
@@ -17,8 +19,7 @@ points(ratioSommetsDetruits, nbIterationsCustom, col = "red")
 lines(ratioSommetsDetruits, nbIterationsCustom, col = "red")
 
 #alpha
-modelname = "datastudy/wb-cs-stanford_alpha.csv"
-data = read.table(modelname)
+data = read.table("wb-cs-stanford_alpha.csv")
 attach(data);
 
 alpha = V1
