@@ -51,7 +51,8 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 	matrix *subgraph = matrix_init(vc, m->edges_count);
 	bitset *removed_set = malloc(bitset_size(vc) * sizeof(*removed_set));
 
-	printf("Generating %u subgraphs with %u removed vertices...\n", n, removed_vertices_count);
+	printf("Generating %u subgraph%s with %u removed %s...\n", n, (n > 1 ? "s": ""),
+		removed_vertices_count, (removed_vertices_count > 1 ? "vertices" : "vertex"));
 	if (init_pi && pi && subgraph && removed_set)
 	{
 		srandom(time(NULL) + getpid());

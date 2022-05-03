@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 
-/** En memory-efficient representation of an array of bits. */
+/** A memory-efficient representation of an array of bits. */
 typedef usize bitset;
 
 /**

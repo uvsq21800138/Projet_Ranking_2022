@@ -13,7 +13,7 @@ CFLAGS			:= -Wall -Wextra -Werror -MMD -MP
 CFLAGS_DEBUG	:= $(CFLAGS) -g3
 CFLAGS_RELEASE	:= $(CFLAGS) -Ofast -DNDEBUG
 BUILD_DIR		:= .build
-STUDY_DIR		:= datastudy/
+STUDY_DIR		:= datastudy
 OBJ_EXT			:= .o
 OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EXT))
 OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
