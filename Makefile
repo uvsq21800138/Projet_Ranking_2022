@@ -14,7 +14,7 @@ BUILD_DIR		:= .build
 OBJ_EXT			:= .o
 OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EXT))
 OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
-DOXYGEN_DIR		:= doc/html doc/latex
+DOXYGEN_DIR		:= doc/doxygen
 GRAPH_FILE		:= data/wb-cs-stanford.txt
 RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).data 100 0.5 0.85
 STUDY_OUTPUT	:= *.pdf data/*.data datastudy study.Rout

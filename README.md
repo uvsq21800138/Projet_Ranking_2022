@@ -33,4 +33,4 @@ make [ run-gdb | run-valgrind ]
 ```bash
 make doc
 ```
-Génère la documentation du programme. L'ensemble des fichiers sources est documenté. La documentation est générée dans le dossier doc. Pour y accéder, il suffit d'ouvrir le fichier doc/html/index.html dans un navigateur web.
+Génère la documentation du programme. L'ensemble des fichiers sources est documenté. La documentation est générée dans le dossier doc. Pour y accéder, il suffit d'ouvrir le fichier doc/doxygen/html/index.html dans un navigateur web.

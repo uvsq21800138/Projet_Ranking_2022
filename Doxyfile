@@ -1,6 +1,6 @@
 PROJECT_NAME = projet_ranking_groupe_3
 PROJECT_NUMBER = 1.0
-OUTPUT_DIRECTORY = doc
+OUTPUT_DIRECTORY = doc/doxygen
 INPUT = src
 FILE_PATTERNS = *.c *.h
 
