@@ -121,7 +121,8 @@ matrix *matrix_init_from_file(FILE *f)
 			break ;
 		assert(vertex_index == expected_vertex_index + 1); // Vertices indexes must be in order
 		m->row_start[vertex_index - 1] = row_start_index;
-		for (i = 0; i < edges_count && edge_init_from_file(m->edges + row_start_index + i, f) == 2; ++i);
+		for (i = 0; i < edges_count && edge_init_from_file(m->edges + row_start_index + i, f) == 2; ++i)
+			assert(m->edges[row_start_index + i].y < vertices_count); // Vertices indexes must be valid
 		if (i < edges_count) // Invalid row
 			break ;
 	}
