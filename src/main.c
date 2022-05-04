@@ -52,52 +52,83 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 	matrix *subgraph = matrix_init(vc, m->edges_count);
 	bitset *removed_set = malloc(bitset_size(vc) * sizeof(*removed_set));
 
-	printf("Generating %u subgraph%s with %u removed %s...\n", n, (n > 1 ? "s": ""),
-		removed_vertices_count, (removed_vertices_count > 1 ? "vertices" : "vertex"));
 	if (init_pi && pi && subgraph && removed_set)
 	{
 		srandom(time(NULL) + getpid()); // Avoid same seed
 
 		// We compute the initial PageRank
+		printf("Running PageRank on original graph...");
+		fflush(stdout);
 		vect_set(init_pi, vc, 1.0 / vc);
 		s32 pagerank_iterations = pagerank(m, alpha, EPSILON, init_pi);
-
-		// Then we generate n subgraphs and compute their PageRank
-		f64 percent_factor = 100.0 / n;
-		f64 percent = 0;
-		for (u32 i = 0; i < n; ++i)
+		if (pagerank_iterations < 0)
 		{
-			if (matrix_generate_subgraph(subgraph, m, removed_vertices_count, removed_set) < 0)
-			{
-				print_error("matrix_generate_subgraph", NULL);
-				break ;
-			}
-			u32 number_of_empty_pages = 0;
-			for (u32 j = 0; j < subgraph->vertices_count; ++j)
-				if (!matrix_row_count(subgraph, j))
-					++number_of_empty_pages;
-			// Sum of non removed vertices
-			f64 s = 0;
-			for (u32 j = 0; j < vc; ++j)
-				if (!bitset_is_set(removed_set, j))
-					s += init_pi[j];
-			// Normalization
-			for (u32 j = 0, k = 0; j < vc; ++j)
-				if (!bitset_is_set(removed_set, j))
-					pi[k++] = init_pi[j] / s;
-			// Computes PageRank using the custom initial vector
-			s32 iterations = pagerank(subgraph, alpha, EPSILON, pi);
-			// Write the results to the output file
-			fprintf(output_file, "%lg %d %d %lg %lg %lg\n", alpha, pagerank_iterations,
-				iterations, (f64)removed_vertices_count / vc,
-				(f64)(m->edges_count - subgraph->edges_count) / m->edges_count,
-				(f64)number_of_empty_pages / subgraph->vertices_count);
-			// Prints the progress indicator
-			percent += percent_factor;
-			printf("\r%.2lf%%", percent);
-			fflush(stdout);
+			putchar('\n');
+			print_error("pagerank", NULL);
 		}
-		puts("\rDone!  ");
+		else
+		{
+			printf(" Done in %d iterations.\n", pagerank_iterations);
+
+			// Then we generate n subgraphs and compute their PageRank
+			printf("Generating %u subgraph%s with %u removed %s...\n", n, (n > 1 ? "s": ""),
+				removed_vertices_count, (removed_vertices_count > 1 ? "vertices" : "vertex"));
+			f64 percent_factor = 100.0 / (2 * n);
+			f64 percent = 0;
+			for (u32 i = 0; i < n; ++i)
+			{
+				if (matrix_generate_subgraph(subgraph, m, removed_vertices_count, removed_set) < 0)
+				{
+					print_error("matrix_generate_subgraph", NULL);
+					break ;
+				}
+
+				// Computes original PageRank
+				vect_set(pi, pi_size, 1.0 / pi_size);
+				s32 pagerank_iterations = pagerank(subgraph, alpha, EPSILON, pi);
+
+				// Prints the progress indicator
+				percent += percent_factor;
+				printf("\r%.2lf%%", percent);
+				fflush(stdout);
+
+				u32 number_of_empty_pages = 0;
+				for (u32 j = 0; j < subgraph->vertices_count; ++j)
+					if (!matrix_row_count(subgraph, j))
+						++number_of_empty_pages;
+
+				// Sum of non removed vertices
+				f64 s = 0;
+				for (u32 j = 0; j < vc; ++j)
+					if (!bitset_is_set(removed_set, j))
+						s += init_pi[j];
+
+				// Normalization
+				for (u32 j = 0, k = 0; j < vc; ++j)
+					if (!bitset_is_set(removed_set, j))
+						pi[k++] = init_pi[j] / s;
+
+				// Computes PageRank using the custom initial vector
+				s32 iterations = pagerank(subgraph, alpha, EPSILON, pi);
+				if (iterations < 0)
+				{
+					print_error("pagerank", NULL);
+					break ;
+				}
+
+				// Write the results to the output file
+				fprintf(output_file, "%lg %d %d %lg %lg %lg\n", alpha, pagerank_iterations,
+					iterations, (f64)removed_vertices_count / vc,
+					(f64)(m->edges_count - subgraph->edges_count) / m->edges_count,
+					(f64)number_of_empty_pages / subgraph->vertices_count);
+
+				// Prints the progress indicator
+				percent += percent_factor;
+				printf("\r%.2lf%%", percent);
+				fflush(stdout);
+			}
+			puts("\rDone!  ");
+		}
 	}
 	else
 		print_error("generate_data", NULL);
