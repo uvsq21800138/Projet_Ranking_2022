@@ -3,8 +3,6 @@ DEBUG_SUFFIX	:= _debug
 RELEASE_SUFFIX	:= _release
 DEBUG_OUTPUT	:= $(NAME)$(DEBUG_SUFFIX)
 RELEASE_OUTPUT	:= $(NAME)$(RELEASE_SUFFIX)
-R_OUTPUT		:= study.Rout
-PDF				:= *.pdf
 SRC_EXT			:= .c
 SRC_DIR			:= src
 SRC				:= $(wildcard $(SRC_DIR)/*$(SRC_EXT))
@@ -13,13 +11,13 @@ CFLAGS			:= -Wall -Wextra -Werror -MMD -MP
 CFLAGS_DEBUG	:= $(CFLAGS) -g3
 CFLAGS_RELEASE	:= $(CFLAGS) -Ofast -DNDEBUG
 BUILD_DIR		:= .build
-STUDY_DIR		:= datastudy
 OBJ_EXT			:= .o
 OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EXT))
 OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
-DOXYGEN_DIR		:= doc/html
+DOXYGEN_DIR		:= doc/html doc/latex
 GRAPH_FILE		:= data/wb-cs-stanford.txt
 RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).data 100 0.5 0.85
+STUDY_OUTPUT	:= *.pdf data/*.data datastudy study.Rout
 
 all: $(DEBUG_OUTPUT) $(RELEASE_OUTPUT)
 
@@ -30,7 +28,7 @@ $(RELEASE_OUTPUT): $(OBJ_RELEASE)
 	$(CC) $(CFLAGS_RELEASE) $^ -o $@
 
 clean:
-	rm -rf $(DEBUG_OUTPUT) $(RELEASE_OUTPUT) $(BUILD_DIR) $(DOXYGEN_DIR) $(STUDY_DIR) $(R_OUTPUT) $(PDF)
+	rm -rf $(DEBUG_OUTPUT) $(RELEASE_OUTPUT) $(BUILD_DIR) $(DOXYGEN_DIR) $(STUDY_OUTPUT)
 
 doc:
 	doxygen
