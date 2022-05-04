@@ -60,7 +60,7 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 
 		// We compute the initial PageRank
 		vect_set(init_pi, vc, 1.0 / vc);
-		s32 pagerank_iterations = pagerank(m, alpha, init_pi);
+		s32 pagerank_iterations = pagerank(m, alpha, EPSILON, init_pi);
 
 		// Then we generate n subgraphs and compute their PageRank
 		f64 percent_factor = 100.0 / n;
