@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <float.h>
 #include <stdlib.h>
 #include <string.h>
 #include "macros.h"
@@ -26,7 +27,7 @@ static void init_f(const matrix *m, bitset *f)
  */
 static f64 vect_mul_cf(const f64 *x, const bitset *f, usize n)
 {
-	f64 r = 0.0;
+	f64 r = 0;
 	for (usize i = 0; i < n; ++i)
 		if (bitset_is_set(f, i))
 			r += x[i];
@@ -48,10 +49,9 @@ static void vect_mul_p(f64 *r, const f64 *x, const matrix *p)
 			r[it->y] += x[i] * it->w;
 }
 
-s32 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
+s32 pagerank(const matrix *m, f64 alpha, f64 *init_vect)
 {
 	assert(IN_BOUNDS(0, alpha, 1));
-	assert(IN_BOUNDS(0, epsilon, 1));
 
 	u64 n = m->vertices_count;
 	f64 *pi[2] = { init_vect, malloc(n * sizeof(f64)) };
@@ -63,18 +63,17 @@ s32 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 		return -1;
 	}
 
-	const f64 inv = 1.0 / n;
 	s32 i = 0;
 	init_f(m, f);
 	do
 	{
 		f64 *old_pi = pi[i % 2];
 		f64 *new_pi = pi[(i + 1) % 2];
-		f64 s = inv * ((1 - alpha) + alpha * vect_mul_cf(old_pi, f, n));
+		f64 s = (1.0 / n) * ((1 - alpha) + alpha * vect_mul_cf(old_pi, f, n));
 		vect_mul_p(new_pi, old_pi, m);
 		vect_mul_add_f64(new_pi, n, alpha, s);
 		++i;
-	}	while (vect_norm1(pi[0], pi[1], n) > epsilon);
+	}	while (vect_norm1(*pi, pi[1], n) > DBL_EPSILON);
 	if (!(i % 2))
 		memcpy(init_vect, pi[1], n * sizeof(*pi[1]));
 

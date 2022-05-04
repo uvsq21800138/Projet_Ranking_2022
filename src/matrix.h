@@ -34,7 +34,8 @@ void matrix_destroy(matrix *m);
 /**
  * Generate a subgraph based on the given matrix with n random vertices removed.
  * The dst matrix must be allocated and have enough space to store the subgraph.
- * The removed vertices are stored in the given bitset of size src->vertices_count.
+ * The removed vertices are stored in the given bitset.
+ * The bitset must have enough space to store the number of vertices of the src matrix.
  * @param dst The destination matrix.
  * @param src The source matrix.
  * @param n The number of vertices to remove.

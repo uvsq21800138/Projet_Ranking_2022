@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "constants.h"
 #include "pagerank.h"
 #include "parser.h"
 #include "vect.h"
@@ -55,11 +54,11 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 		removed_vertices_count, (removed_vertices_count > 1 ? "vertices" : "vertex"));
 	if (init_pi && pi && subgraph && removed_set)
 	{
-		srandom(time(NULL) + getpid());
+		srandom(time(NULL) + getpid()); // Avoid same seed
 
 		// We compute the initial PageRank
 		vect_set(init_pi, vc, 1.0 / vc);
-		s32 pagerank_iterations = pagerank(m, alpha, EPSILON, init_pi);
+		s32 pagerank_iterations = pagerank(m, alpha, init_pi);
 
 		// Then we generate n subgraphs and compute their PageRank
 		f64 percent_factor = 100.0 / n;
@@ -85,7 +84,7 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 				if (!bitset_is_set(removed_set, j))
 					pi[k++] = init_pi[j] / s;
 			// Computes PageRank using the custom initial vector
-			s32 iterations = pagerank(subgraph, alpha, EPSILON, pi);
+			s32 iterations = pagerank(subgraph, alpha, pi);
 			// Write the results to the output file
 			fprintf(output_file, "%lg %d %d %lg %lg %lg\n", alpha, pagerank_iterations,
 				iterations, (f64)removed_vertices_count / vc,
@@ -110,7 +109,7 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 int main(int ac, char **av)
 {
 	if (ac != 6) // Not enough arguments
-		return show_usage(ac ? av[0] : DEFAULT_BINARY_NAME);
+		return ac ? show_usage(*av) : EXIT_FAILURE;
 
 	// Parse arguments
 	int errors_count = 0;

@@ -1,27 +1,9 @@
 #include "vect.h"
 
-void vect_add_f64(f64 *v, usize n, f64 f)
-{
-	for (usize i = 0; i < n; ++i)
-		v[i] += f;
-}
-
-void vect_add(f64 *r, const f64 *v, usize n)
-{
-	for (usize i = 0; i < n; ++i)
-		r[i] += v[i];
-}
-
 void vect_mul_add_f64(f64 *v, usize n, f64 f, f64 g)
 {
 	for (usize i = 0; i < n; ++i)
 		v[i] = v[i] * f + g;
-}
-
-void vect_mul_f64(f64 *v, usize n, f64 f)
-{
-	for (usize i = 0; i < n; ++i)
-		v[i] *= f;
 }
 
 f64 vect_norm1(const f64 *v, const f64 *w, usize n)

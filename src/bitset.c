@@ -1,21 +1,19 @@
-#include <limits.h>
 #include "bitset.h"
-
-#define WORD_SIZE (sizeof(usize) * CHAR_BIT)
+#include "macros.h"
 
 usize bitset_is_set(const bitset *bs, usize i)
 {
-	return bs[i / WORD_SIZE] & (1UL << (i % WORD_SIZE));
+	return bs[i / BIT_SIZEOF(usize)] & (1UL << (i % BIT_SIZEOF(usize)));
 }
 
 void bitset_set(bitset *bs, usize i)
 {
-	bs[i / WORD_SIZE] |= (1UL << (i % WORD_SIZE));
+	bs[i / BIT_SIZEOF(usize)] |= (1UL << (i % BIT_SIZEOF(usize)));
 }
 
 usize bitset_size(usize n)
 {
-	return (n / WORD_SIZE + ((n % WORD_SIZE) != 0)) * sizeof(bitset);
+	return (n / BIT_SIZEOF(usize) + ((n % BIT_SIZEOF(usize)) != 0)) * sizeof(bitset);
 }
 
 void bitset_reset(bitset *bs, usize n)
@@ -27,5 +25,5 @@ void bitset_reset(bitset *bs, usize n)
 
 void bitset_unset(bitset *bs, usize i)
 {
-	bs[i / WORD_SIZE] &= ~(1UL << (i % WORD_SIZE));
+	bs[i / BIT_SIZEOF(usize)] &= ~(1UL << (i % BIT_SIZEOF(usize)));
 }
