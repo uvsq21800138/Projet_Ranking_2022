@@ -86,6 +86,11 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 				// Computes original PageRank
 				vect_set(pi, pi_size, 1.0 / pi_size);
 				s32 pagerank_iterations = pagerank(subgraph, alpha, EPSILON, pi);
+				if (pagerank_iterations < 0)
+				{
+					print_error("pagerank", NULL);
+					break ;
+				}
 
 				// Prints the progress indicator
 				percent += percent_factor;
