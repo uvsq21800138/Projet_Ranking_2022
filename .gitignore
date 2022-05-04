@@ -53,6 +53,7 @@ dkms.conf
 
 # Non-source files
 doc/html/
+doc/latex/
 data/
 datastydy/
 ranking_debug
