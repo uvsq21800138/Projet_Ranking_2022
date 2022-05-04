@@ -18,8 +18,7 @@ mkdir datastudy
 _staticRatio=0.3
 _staticAlpha=0.6
 _nombreEssais=1
-_start=3
-_intervalle=3
+_intervalle=2
 _end=96
 _hundred=100
 
