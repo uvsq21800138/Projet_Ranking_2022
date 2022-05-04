@@ -17,7 +17,7 @@ OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OB
 DOXYGEN_DIR		:= doc/doxygen
 GRAPH_FILE		:= data/wb-cs-stanford.txt
 RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).data 100 0.5 0.85
-STUDY_OUTPUT	:= *.pdf data/*.data datastudy study.Rout
+STUDY_OUTPUT	:= datastudy *.Rout
 
 all: $(DEBUG_OUTPUT) $(RELEASE_OUTPUT)
 

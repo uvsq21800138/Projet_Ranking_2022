@@ -1,7 +1,9 @@
-### wb-cs-stanford ###
-# ratio
-data = read.table("datastudy/wb-cs-stanford_ratio.data")
-attach(data);
+################################## wb-cs-stanford ##################################
+nom <- "datastudy/wb-cs-stanford"
+
+# ratio de sommets détruits
+data = read.table(paste0(nom, "_ratio.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -13,9 +15,13 @@ plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'it
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
-#alpha
-data = read.table("datastudy/wb-cs-stanford_alpha.data")
-attach(data);
+# ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.6")
+
+# alpha
+data = read.table(paste0(nom, "_alpha.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -27,10 +33,12 @@ plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
 lines(nbIterationsCustom, alpha, col = "red")
 
-### Stanford ###
-# ratio
-data = read.table("datastudy/Stanford_ratio.data")
-attach(data);
+################################## Stanford ##################################
+nom <- "datastudy/Stanford"
+
+# ratio de sommets détruits
+data = read.table(paste0(nom, "_ratio.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -42,9 +50,13 @@ plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'it
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
-#alpha
-data = read.table("datastudy/Stanford_alpha.data")
-attach(data);
+# ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.6")
+
+# alpha
+data = read.table(paste0(nom, "_alpha.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -56,10 +68,12 @@ plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
 lines(nbIterationsCustom, alpha, col = "red")
 
-### Stanford_BerkeleyV2 ###
-# ratio
-data = read.table("datastudy/Stanford_BerkeleyV2_ratio.data")
-attach(data);
+################################## Stanford_BerkeleyV2 ##################################
+nom <- "datastudy/Stanford_BerkeleyV2"
+
+# ratio de sommets détruits
+data = read.table(paste0(nom, "_ratio.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -71,9 +85,13 @@ plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'it
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
-#alpha
-data = read.table("datastudy/Stanford_BerkeleyV2_alpha.data")
-attach(data);
+# ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.6")
+
+# alpha
+data = read.table(paste0(nom, "_alpha.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -85,10 +103,12 @@ plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
 lines(nbIterationsCustom, alpha, col = "red")
 
-### in-2004v2 ###
-# ratio
-data = read.table("datastudy/in-2004v2_ratio.data")
-attach(data);
+################################## in-2004v2 ##################################
+nom <- "datastudy/in-2004v2"
+
+# ratio de sommets détruits
+data = read.table(paste0(nom, "_ratio.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -100,9 +120,13 @@ plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'it
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
-#alpha
-data = read.table("datastudy/in-2004v2_alpha.data")
-attach(data);
+# ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.6")
+
+# alpha
+data = read.table(paste0(nom, "_alpha.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -114,10 +138,12 @@ plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
 lines(nbIterationsCustom, alpha, col = "red")
 
-### wb-edu ###
-# ratio
-data = read.table("datastudy/wb-edu_ratio.data")
-attach(data);
+################################## wb-edu ##################################
+nom <- "datastudy/wb-edu"
+
+# ratio de sommets détruits
+data = read.table(paste0(nom, "_ratio.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -129,9 +155,13 @@ plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'it
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
-#alpha
-data = read.table("datastudy/wb-edu_alpha.data")
-attach(data);
+# ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.6")
+
+# alpha
+data = read.table(paste0(nom, "_alpha.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -143,10 +173,12 @@ plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
 lines(nbIterationsCustom, alpha, col = "red")
 
-### wikipedia-20051105V2 ###
-# ratio
-data = read.table("datastudy/wikipedia-20051105V2_ratio.data")
-attach(data);
+################################## wikipedia-20051105V2 ##################################
+nom <- "datastudy/wikipedia-20051105V2"
+
+# ratio de sommets détruits
+data = read.table(paste0(nom, "_ratio.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
@@ -158,9 +190,13 @@ plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'it
 col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
-#alpha
-data = read.table("datastudy/wikipedia-20051105V2_alpha.data")
-attach(data);
+# ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.6")
+
+# alpha
+data = read.table(paste0(nom, "_alpha.data"))
+attach(data)
 
 alpha = V1
 nbIterationsPagerank = V2
