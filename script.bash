@@ -25,50 +25,6 @@ _nombreEssais=1
 
 ########################################################## Lancement des études
 
-################################## wb-cs-stanford ##################################
-_nom=wb-cs-stanford
-_id=1
-_hundred=100
-
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
-printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_ratio=$(bc -l <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_ratio.data ${_nombreEssais} 0${_ratio} ${_staticAlpha}
-progressBar ${c} ${_end}
-done
-
-printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_alpha=$(bc <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_alpha.data ${_nombreEssais} 0${_staticRatio} ${_alpha}
-progressBar ${c} ${_end}
-done
-
-################################## Stanford ##################################
-_nom=Stanford
-_id=2
-_hundred=100
-
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
-printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_ratio=$(bc -l <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_ratio.data ${_nombreEssais} 0${_ratio} ${_staticAlpha}
-progressBar ${c} ${_end}
-done
-
-printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_alpha=$(bc <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_alpha.data ${_nombreEssais} 0${_staticRatio} ${_alpha}
-progressBar ${c} ${_end}
-done
-
 ################################## Stanford_BerkeleyV2 ##################################
 _nom=Stanford_BerkeleyV2
 _id=3
@@ -91,72 +47,6 @@ _alpha=$(bc <<< "scale=2; ${c}/${_hundred}")
 progressBar ${c} ${_end}
 done
 
-################################## in-2004v2 ##################################
-_nom=in-2004v2
-_id=4
-_hundred=100
 
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
-printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_ratio=$(bc -l <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_ratio.data ${_nombreEssais} 0${_ratio} ${_staticAlpha}
-progressBar ${c} ${_end}
-done
-
-printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_alpha=$(bc <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_alpha.data ${_nombreEssais} 0${_staticRatio} ${_alpha}
-progressBar ${c} ${_end}
-done
-
-################################## wb-edu ##################################
-_nom=wb-edu
-_id=5
-_hundred=100
-
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
-printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_ratio=$(bc -l <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_ratio.data ${_nombreEssais} 0${_ratio} ${_staticAlpha}
-progressBar ${c} ${_end}
-done
-
-printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_alpha=$(bc <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_alpha.data ${_nombreEssais} 0${_staticRatio} ${_alpha}
-progressBar ${c} ${_end}
-done
-
-################################## wikipedia-20051105V2 ##################################
-_nom=wikipedia-20051105V2
-_id=6
-_hundred=100
-
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
-printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_ratio=$(bc -l <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_ratio.data ${_nombreEssais} 0${_ratio} ${_staticAlpha}
-progressBar ${c} ${_end}
-done
-
-printf "Nombre d'itérations avant convergence de chaque algorithme selon alpha\n"
-for ((c = ${_intervalle}; c < ${_end}; c=c+${_intervalle}))
-do
-_alpha=$(bc <<< "scale=2; ${c}/${_hundred}")
-./ranking_release data/${_nom}.txt datastudy/${_nom}_alpha.data ${_nombreEssais} 0${_staticRatio} ${_alpha}
-progressBar ${c} ${_end}
-done
-
-########################################################## Génération des graphiques
 printf "Génération des graphiques en cours...\n"
 R CMD BATCH study.R

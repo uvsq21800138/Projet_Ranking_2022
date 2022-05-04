@@ -1,5 +1,4 @@
 #include <assert.h>
-#include <float.h>
 #include <stdlib.h>
 #include <string.h>
 #include "macros.h"
@@ -49,7 +48,7 @@ static void vect_mul_p(f64 *r, const f64 *x, const matrix *p)
 			r[it->y] += x[i] * it->w;
 }
 
-s32 pagerank(const matrix *m, f64 alpha, f64 *init_vect)
+s32 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 {
 	assert(IN_BOUNDS(0, alpha, 1));
 
@@ -73,7 +72,7 @@ s32 pagerank(const matrix *m, f64 alpha, f64 *init_vect)
 		vect_mul_p(new_pi, old_pi, m);
 		vect_mul_add_f64(new_pi, n, alpha, s);
 		++i;
-	}	while (vect_norm1(*pi, pi[1], n) > DBL_EPSILON);
+	}	while (vect_norm1(*pi, pi[1], n) > epsilon);
 	if (!(i % 2))
 		memcpy(init_vect, pi[1], n * sizeof(*pi[1]));
 

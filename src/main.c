@@ -7,6 +7,8 @@
 #include "vect.h"
 #include "utils.h"
 
+#define EPSILON 1e-6
+
 /**
  * Prints a usage message.
  * @param binary_name The name of the binary.
@@ -84,7 +86,7 @@ static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed
 				if (!bitset_is_set(removed_set, j))
 					pi[k++] = init_pi[j] / s;
 			// Computes PageRank using the custom initial vector
-			s32 iterations = pagerank(subgraph, alpha, pi);
+			s32 iterations = pagerank(subgraph, alpha, EPSILON, pi);
 			// Write the results to the output file
 			fprintf(output_file, "%lg %d %d %lg %lg %lg\n", alpha, pagerank_iterations,
 				iterations, (f64)removed_vertices_count / vc,
