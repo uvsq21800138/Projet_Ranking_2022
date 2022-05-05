@@ -19,6 +19,7 @@ _zero=0
 _staticRatio=0.2
 _staticAlpha=0.8
 _nombreEssais=5
+_nbGraphes=6
 _intervalle=2
 _fifty=50
 _end=96
@@ -30,7 +31,7 @@ _hundred=100
 _nom=wb-cs-stanford
 _id=1
 
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
+printf "/// Etude de %s (%s/%s) ///\n" ${_nom} ${_id} ${_nbGraphes}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
 for ((c = ${_zero}; c < ${_fifty}; c=c+${_intervalle}))
 do
@@ -51,7 +52,7 @@ done
 _nom=Stanford
 _id=2
 
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
+printf "/// Etude de %s (%s/%s) ///\n" ${_nom} ${_id} ${_nbGraphes}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
 for ((c = ${_zero}; c < ${_fifty}; c=c+${_intervalle}))
 do
@@ -72,7 +73,7 @@ done
 _nom=Stanford_BerkeleyV2
 _id=3
 
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
+printf "/// Etude de %s (%s/%s) ///\n" ${_nom} ${_id} ${_nbGraphes}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
 for ((c = ${_zero}; c < ${_fifty}; c=c+${_intervalle}))
 do
@@ -93,7 +94,7 @@ done
 _nom=in-2004v2
 _id=4
 
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
+printf "/// Etude de %s (%s/%s) ///\n" ${_nom} ${_id} ${_nbGraphes}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
 for ((c = ${_zero}; c < ${_fifty}; c=c+${_intervalle}))
 do
@@ -114,7 +115,7 @@ done
 _nom=wb-edu
 _id=5
 
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
+printf "/// Etude de %s (%s/%s) ///\n" ${_nom} ${_id} ${_nbGraphes}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
 for ((c = ${_zero}; c < ${_fifty}; c=c+${_intervalle}))
 do
@@ -135,7 +136,7 @@ done
 _nom=wikipedia-20051105V2
 _id=6
 
-printf "/// Etude de %s (%s/6) ///\n" ${_nom} ${_id}
+printf "/// Etude de %s (%s/%s) ///\n" ${_nom} ${_id} ${_nbGraphes}
 printf "Nombre d'itérations avant convergence de chaque algorithme selon le ratio de sommets détruits\n"
 for ((c = ${_zero}; c < ${_fifty}; c=c+${_intervalle}))
 do

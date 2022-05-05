@@ -1,8 +1,12 @@
+# Variables
+nbGraphes <- 6
+
 ################################## wb-cs-stanford ##################################
-nom <- "datastudy/wb-cs-stanford"
+nom <- "wb-cs-stanford"
+id <- 1
 
-# ratio de sommets détruits
-data = read.table(paste0(nom, "_ratio.data"))
+# Ratio de sommets détruits
+data = read.table(paste0("datastudy/", nom, "_ratio.data"))
 attach(data)
 
 alpha = V1
@@ -11,16 +15,19 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
-lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
+plot(nbIterationsPagerank, ratioSommetsDetruits, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8"))
+lines(lowess(nbIterationsPagerank, ratioSommetsDetruits), col = "blue")
+points(nbIterationsCustom, ratioSommetsDetruits, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, ratioSommetsDetruits), col = "red")
 
-# ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.8")
+# Ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8"))
+lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
 
-# alpha
-data = read.table(paste0(nom, "_alpha.data"))
+# Alpha
+data = read.table(paste0("datastudy/", nom, "_alpha.data"))
 attach(data)
 
 alpha = V1
@@ -29,15 +36,18 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
-lines(nbIterationsCustom, alpha, col = "red")
+plot(nbIterationsPagerank, alpha, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Alpha", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2"))
+lines(lowess(nbIterationsPagerank, alpha), col = "blue")
+points(nbIterationsCustom, alpha, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, alpha), col = "red")
 
 ################################## Stanford ##################################
-nom <- "datastudy/Stanford"
+nom <- "Stanford"
+id <- 2
 
-# ratio de sommets détruits
-data = read.table(paste0(nom, "_ratio.data"))
+# Ratio de sommets détruits
+data = read.table(paste0("datastudy/", nom, "_ratio.data"))
 attach(data)
 
 alpha = V1
@@ -46,16 +56,19 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
-lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
+plot(nbIterationsPagerank, ratioSommetsDetruits, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8"))
+lines(lowess(nbIterationsPagerank, ratioSommetsDetruits), col = "blue")
+points(nbIterationsCustom, ratioSommetsDetruits, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, ratioSommetsDetruits), col = "red")
 
-# ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.8")
+# Ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8"))
+lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
 
-# alpha
-data = read.table(paste0(nom, "_alpha.data"))
+# Alpha
+data = read.table(paste0("datastudy/", nom, "_alpha.data"))
 attach(data)
 
 alpha = V1
@@ -64,15 +77,18 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
-lines(nbIterationsCustom, alpha, col = "red")
+plot(nbIterationsPagerank, alpha, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Alpha", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2"))
+lines(lowess(nbIterationsPagerank, alpha), col = "blue")
+points(nbIterationsCustom, alpha, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, alpha), col = "red")
 
 ################################## Stanford_BerkeleyV2 ##################################
-nom <- "datastudy/Stanford_BerkeleyV2"
+nom <- "Stanford_BerkeleyV2"
+id <- 3
 
-# ratio de sommets détruits
-data = read.table(paste0(nom, "_ratio.data"))
+# Ratio de sommets détruits
+data = read.table(paste0("datastudy/", nom, "_ratio.data"))
 attach(data)
 
 alpha = V1
@@ -81,16 +97,19 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
-lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
+plot(nbIterationsPagerank, ratioSommetsDetruits, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8"))
+lines(lowess(nbIterationsPagerank, ratioSommetsDetruits), col = "blue")
+points(nbIterationsCustom, ratioSommetsDetruits, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, ratioSommetsDetruits), col = "red")
 
-# ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.8")
+# Ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8"))
+lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
 
-# alpha
-data = read.table(paste0(nom, "_alpha.data"))
+# Alpha
+data = read.table(paste0("datastudy/", nom, "_alpha.data"))
 attach(data)
 
 alpha = V1
@@ -99,15 +118,18 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
-lines(nbIterationsCustom, alpha, col = "red")
+plot(nbIterationsPagerank, alpha, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Alpha", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2"))
+lines(lowess(nbIterationsPagerank, alpha), col = "blue")
+points(nbIterationsCustom, alpha, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, alpha), col = "red")
 
 ################################## in-2004v2 ##################################
-nom <- "datastudy/in-2004v2"
+nom <- "in-2004v2"
+id <- 4
 
-# ratio de sommets détruits
-data = read.table(paste0(nom, "_ratio.data"))
+# Ratio de sommets détruits
+data = read.table(paste0("datastudy/", nom, "_ratio.data"))
 attach(data)
 
 alpha = V1
@@ -116,16 +138,19 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
-lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
+plot(nbIterationsPagerank, ratioSommetsDetruits, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8"))
+lines(lowess(nbIterationsPagerank, ratioSommetsDetruits), col = "blue")
+points(nbIterationsCustom, ratioSommetsDetruits, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, ratioSommetsDetruits), col = "red")
 
-# ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.8")
+# Ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8"))
+lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
 
-# alpha
-data = read.table(paste0(nom, "_alpha.data"))
+# Alpha
+data = read.table(paste0("datastudy/", nom, "_alpha.data"))
 attach(data)
 
 alpha = V1
@@ -134,15 +159,18 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
-lines(nbIterationsCustom, alpha, col = "red")
+plot(nbIterationsPagerank, alpha, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Alpha", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2"))
+lines(lowess(nbIterationsPagerank, alpha), col = "blue")
+points(nbIterationsCustom, alpha, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, alpha), col = "red")
 
 ################################## wb-edu ##################################
-nom <- "datastudy/wb-edu"
+nom <- "wb-edu"
+id <- 5
 
-# ratio de sommets détruits
-data = read.table(paste0(nom, "_ratio.data"))
+# Ratio de sommets détruits
+data = read.table(paste0("datastudy/", nom, "_ratio.data"))
 attach(data)
 
 alpha = V1
@@ -151,16 +179,19 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
-lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
+plot(nbIterationsPagerank, ratioSommetsDetruits, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8"))
+lines(lowess(nbIterationsPagerank, ratioSommetsDetruits), col = "blue")
+points(nbIterationsCustom, ratioSommetsDetruits, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, ratioSommetsDetruits), col = "red")
 
-# ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.8")
+# Ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8"))
+lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
 
-# alpha
-data = read.table(paste0(nom, "_alpha.data"))
+# Alpha
+data = read.table(paste0("datastudy/", nom, "_alpha.data"))
 attach(data)
 
 alpha = V1
@@ -169,15 +200,18 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
-lines(nbIterationsCustom, alpha, col = "red")
+plot(nbIterationsPagerank, alpha, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Alpha", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2"))
+lines(lowess(nbIterationsPagerank, alpha), col = "blue")
+points(nbIterationsCustom, alpha, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, alpha), col = "red")
 
 ################################## wikipedia-20051105V2 ##################################
-nom <- "datastudy/wikipedia-20051105V2"
+nom <- "wikipedia-20051105V2"
+id <- 6
 
-# ratio de sommets détruits
-data = read.table(paste0(nom, "_ratio.data"))
+# Ratio de sommets détruits
+data = read.table(paste0("datastudy/", nom, "_ratio.data"))
 attach(data)
 
 alpha = V1
@@ -186,16 +220,19 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
-lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
+plot(nbIterationsPagerank, ratioSommetsDetruits, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8"))
+lines(lowess(nbIterationsPagerank, ratioSommetsDetruits), col = "blue")
+points(nbIterationsCustom, ratioSommetsDetruits, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, ratioSommetsDetruits), col = "red")
 
-# ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.8")
+# Ratio d'arcs détruits
+plot(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8"))
+lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
 
-# alpha
-data = read.table(paste0(nom, "_alpha.data"))
+# Alpha
+data = read.table(paste0("datastudy/", nom, "_alpha.data"))
 attach(data)
 
 alpha = V1
@@ -204,6 +241,8 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
-lines(nbIterationsCustom, alpha, col = "red")
+plot(nbIterationsPagerank, alpha, pch = 20, cex = 0.5, xlab = "Nombre d'itérations avant convergence", ylab = "Alpha", col = "blue",
+main = paste0(nom, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2"))
+lines(lowess(nbIterationsPagerank, alpha), col = "blue")
+points(nbIterationsCustom, alpha, pch = 20, cex = 0.5, col = "red")
+lines(lowess(nbIterationsCustom, alpha), col = "red")
