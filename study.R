@@ -11,13 +11,13 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
+plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
 # ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.6")
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.8")
 
 # alpha
 data = read.table(paste0(nom, "_alpha.data"))
@@ -29,8 +29,8 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
+plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
 lines(nbIterationsCustom, alpha, col = "red")
 
 ################################## Stanford ##################################
@@ -46,13 +46,13 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
+plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
 # ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.6")
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.8")
 
 # alpha
 data = read.table(paste0(nom, "_alpha.data"))
@@ -64,8 +64,8 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
+plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
 lines(nbIterationsCustom, alpha, col = "red")
 
 ################################## Stanford_BerkeleyV2 ##################################
@@ -81,13 +81,13 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
+plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
 # ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.6")
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.8")
 
 # alpha
 data = read.table(paste0(nom, "_alpha.data"))
@@ -99,8 +99,8 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
+plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
 lines(nbIterationsCustom, alpha, col = "red")
 
 ################################## in-2004v2 ##################################
@@ -116,13 +116,13 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
+plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
 # ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.6")
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.8")
 
 # alpha
 data = read.table(paste0(nom, "_alpha.data"))
@@ -134,8 +134,8 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
+plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
 lines(nbIterationsCustom, alpha, col = "red")
 
 ################################## wb-edu ##################################
@@ -151,13 +151,13 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
+plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
 # ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.6")
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.8")
 
 # alpha
 data = read.table(paste0(nom, "_alpha.data"))
@@ -169,8 +169,8 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
+plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
 lines(nbIterationsCustom, alpha, col = "red")
 
 ################################## wikipedia-20051105V2 ##################################
@@ -186,13 +186,13 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, ratioSommetsDetruits, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.6")
+plot(nbIterationsPagerank, ratioSommetsDetruits, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "Ratio de sommets détruits",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, alpha fixé à 0.8")
 lines(nbIterationsCustom, ratioSommetsDetruits, col = "red")
 
 # ratio d'arcs détruits
-plot(ratioSommetsDetruits, ratioArcsDetruits, type = "l", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
-col = "blue", main = "alpha fixé à 0.6")
+plot(ratioSommetsDetruits, ratioArcsDetruits, type = "p", xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits",
+col = "blue", main = "alpha fixé à 0.8")
 
 # alpha
 data = read.table(paste0(nom, "_alpha.data"))
@@ -204,6 +204,6 @@ nbIterationsCustom = V3
 ratioSommetsDetruits = V4
 ratioArcsDetruits = V5
 
-plot(nbIterationsPagerank, alpha, type = "l", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
-col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.3")
+plot(nbIterationsPagerank, alpha, type = "p", xlab = "Nombre d'itérations avant convergence", ylab = "alpha",
+col = "blue", main = "Bleu = Pagerank, Rouge = Custom, ratio fixé à 0.2")
 lines(nbIterationsCustom, alpha, col = "red")
