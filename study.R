@@ -11,16 +11,40 @@ plots_for_one_graph <- function(name, id){
     ratioSommetsDetruits = V4
     ratioArcsDetruits = V5
 
-    plot(ratioSommetsDetruits, nbIterationsPagerank, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Nombre d'itérations avant convergence", col = "blue",
-    main = paste0(name, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8"))
-    lines(lowess(ratioSommetsDetruits, nbIterationsPagerank, f = 0.3), col = "blue")
-    points(ratioSommetsDetruits, nbIterationsCustom, pch = 20, cex = 0.5, col = "red")
-    lines(lowess(ratioSommetsDetruits, nbIterationsCustom, f = 0.3), col = "red")
+    lowY = min(nbIterationsPagerank, nbIterationsCustom)
+    highY = max(nbIterationsPagerank, nbIterationsCustom)
+    
+    plot(ratioSommetsDetruits, nbIterationsPagerank, 
+         pch = 20, 
+         cex = 0.5, 
+         xlim=c(0, 0.5), 
+         ylim=c(lowY, highY),
+         xlab = "Ratio de sommets détruits", 
+         ylab = "Nombre d'itérations avant convergence", 
+         col = "blue",
+         main = paste0(name, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Alpha fixé à 0.8")
+    )
+    lines(lowess(ratioSommetsDetruits, nbIterationsPagerank, f = 0.3), 
+          col = "blue")
+    points(ratioSommetsDetruits, nbIterationsCustom, 
+           pch = 20, 
+           cex = 0.5, 
+           col = "red"
+    )
+    lines(lowess(ratioSommetsDetruits, nbIterationsCustom, f = 0.3), 
+          col = "red")
 
     # Ratio d'arcs détruits
-    plot(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, xlab = "Ratio de sommets détruits", ylab = "Ratio d'arcs détruits", col = "blue",
-    main = paste0(name, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8"))
-    lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
+    plot(ratioSommetsDetruits, ratioArcsDetruits, 
+         pch = 20, 
+         cex = 0.5, 
+         xlab = "Ratio de sommets détruits", 
+         ylab = "Ratio d'arcs détruits", 
+         col = "blue",
+         main = paste0(name, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à 0.8")
+    )
+    lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), 
+          col = "blue")
 
     # Alpha
     data = read.table(paste0("datastudy/", name, "_alpha.data"))
@@ -32,11 +56,28 @@ plots_for_one_graph <- function(name, id){
     ratioSommetsDetruits = V4
     ratioArcsDetruits = V5
 
-    plot(alpha, nbIterationsPagerank, pch = 20, cex = 0.5, xlab = "Alpha", ylab = "Nombre d'itérations avant convergence", col = "blue",
-    main = paste0(name, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2"))
-    lines(lowess(alpha, nbIterationsPagerank, f = 0.3), col = "blue")
-    points(alpha, nbIterationsCustom, pch = 20, cex = 0.5, col = "red")
-    lines(lowess(alpha, nbIterationsCustom, f = 0.3), col = "red")
+    lowY = min(nbIterationsPagerank, nbIterationsCustom)
+    highY = max(nbIterationsPagerank, nbIterationsCustom)
+
+    plot(alpha, nbIterationsPagerank, 
+         pch = 20, 
+         cex = 0.5, 
+         xlim=c(0.5, 1), 
+         ylim=c(lowY, highY),
+         xlab = "Alpha", 
+         ylab = "Nombre d'itérations avant convergence", 
+         col = "blue",
+         main = paste0(name, " (", id, "/", nbGraphes, ")", "\nBleu = Pagerank, Rouge = Custom, Ratio fixé à 0.2")
+    )
+    lines(lowess(alpha, nbIterationsPagerank, f = 0.3), 
+          col = "blue")
+    points(alpha, nbIterationsCustom, 
+           pch = 20, 
+           cex = 0.5, 
+           col = "red"
+    )
+    lines(lowess(alpha, nbIterationsCustom, f = 0.3), 
+          col = "red")
 }
 
 plots_for_one_graph("wb-cs-stanford", 1)
