@@ -52,7 +52,7 @@ run_batch_alpha 'Stanford' 100 0.02
 run_batch_ratio 'Stanford' 10 0.02
 # <= 150M
 run_batch_alpha 'Stanford_BerkeleyV2' 100 0.02
-run_batch_ratio 'Stanford_BerkeleyV3' 10 0.02
+run_batch_ratio 'Stanford_BerkeleyV2' 10 0.02
 # <= 500M
 run_batch_alpha 'in-2004v2 wikipedia-20051105V2' 50 0.1
 run_batch_ratio 'in-2004v2 wikipedia-20051105V2' 10 0.05
