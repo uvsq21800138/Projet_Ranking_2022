@@ -5,6 +5,14 @@
 typedef usize bitset;
 
 /**
+ * Allocates memory for a bitset.
+ * The bitset is not initialized.
+ * @param size The number of bits in the bitset.
+ * @return The allocated bitset or NULL if the allocation failed.
+ */
+bitset *bitset_alloc(usize size);
+
+/**
  * Checks if a bit is set in a bitset.
  * @param bs The bitset.
  * @param i The index of the bit to check.
@@ -18,14 +26,6 @@ usize bitset_is_set(const bitset *bs, usize i);
  * @param i The index of the bit to set.
  */
 void bitset_set(bitset *bs, usize i);
-
-/**
- * Returns the size of a bitset in bytes to store n bits.
- * The returned value can be used to allocate a bitset.
- * @param n The number of bits in the bitset.
- * @return The size needed to store n bits.
- */
-usize bitset_size(usize n);
 
 /**
  * Resets all bits of a bitset of n bits.

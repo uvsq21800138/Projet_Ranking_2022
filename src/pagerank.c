@@ -5,6 +5,10 @@
 #include "pagerank.h"
 #include "vect.h"
 
+static f64 *g_pi_cache = NULL;
+static bitset *g_f_cache = NULL;
+static usize g_pi_cache_size = 0;
+
 /*
 * Initializes f such as f[i] = 1 if the outdegree of vertex i is 0, 0 otherwise.
 * @param m The matrix.
@@ -12,6 +16,7 @@
 */
 static void init_f(const matrix *m, bitset *f)
 {
+	bitset_reset(f, m->vertices_count);
 	for (usize i = 0; i < m->vertices_count; ++i)
 		if (!matrix_row_count(m, i))
 			bitset_set(f, i);
@@ -48,22 +53,45 @@ static void vect_mul_p(f64 *r, const f64 *x, const matrix *p)
 			r[it->y] += x[i] * it->w;
 }
 
-s32 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
+void pagerank_clear()
 {
-	assert(IN_BOUNDS(0, alpha, 1));
+	free(g_pi_cache);
+	free(g_f_cache);
+	g_pi_cache = NULL;
+	g_f_cache = NULL;
+	g_pi_cache_size = 0;
+}
 
-	u64 n = m->vertices_count;
-	f64 *pi[2] = { init_vect, malloc(n * sizeof(f64)) };
-	bitset *f = calloc(1, bitset_size(n));
-	if (!pi[1] || !f)
+int pagerank_init(u64 n)
+{
+	if (g_pi_cache)
+		pagerank_clear();
+	g_pi_cache = malloc(n * sizeof(f64));
+	g_f_cache = bitset_alloc(n);
+	g_pi_cache_size = n;
+	if (!g_pi_cache || !g_f_cache)
 	{
-		free(pi[1]);
-		free(f);
+		pagerank_clear();
 		return -1;
 	}
+	return 0;
+}
 
-	s32 i = 0;
+u32 pagerank(const matrix *m, f64 *init_vect, f64 alpha)
+{
+	assert(g_pi_cache);
+	assert(g_f_cache);
+	assert(m->vertices_count <= g_pi_cache_size);
+	assert(IN_BOUNDS(0, alpha, 1));
+	assert(IN_BOUNDS(0, PAGERANK_EPSILON, 1));
+
+	u64 n = m->vertices_count;
+	f64 *pi[2] = { init_vect, g_pi_cache };
+	bitset *f = g_f_cache;
+
 	init_f(m, f);
+	vect_set(pi[1], n, 0);
+	u32 i = 0;
 	do
 	{
 		f64 *old_pi = pi[i % 2];
@@ -72,11 +100,8 @@ s32 pagerank(const matrix *m, f64 alpha, f64 epsilon, f64 *init_vect)
 		vect_mul_p(new_pi, old_pi, m);
 		vect_mul_add_f64(new_pi, n, alpha, s);
 		++i;
-	}	while (vect_norm1(*pi, pi[1], n) > epsilon);
+	}	while (vect_norm1(*pi, pi[1], n) > PAGERANK_EPSILON);
 	if (!(i % 2))
-		memcpy(init_vect, pi[1], n * sizeof(*pi[1]));
-
-	free(pi[1]);
-	free(f);
+		vect_copy(init_vect, pi[1], n);
 	return i;
 }

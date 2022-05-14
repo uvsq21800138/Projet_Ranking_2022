@@ -3,6 +3,15 @@
 #include "types.h"
 
 /**
+ * Copys a vector.
+ * @param dst The destination vector.
+ * @param src The vector to copy.
+ * @param n The size of both vectors.
+ * @return The destination vector.
+ */
+f64 *vect_copy(f64 *dst, const f64 *src, usize n);
+
+/**
  * Performs the following operation:
  * v = v * f + g.
  * @param v The result vector.

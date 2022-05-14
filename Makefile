@@ -16,7 +16,7 @@ OBJ_DEBUG		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(DEBUG_SUFFIX)$(OBJ_EX
 OBJ_RELEASE		:= $(SRC:$(SRC_DIR)/%$(SRC_EXT)=$(BUILD_DIR)/%$(RELEASE_SUFFIX)$(OBJ_EXT))
 DOXYGEN_DIR		:= doc/doxygen
 GRAPH_FILE		:= data/wb-cs-stanford.txt
-RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).data 100 0.5 0.85
+RUN_ARGS		:= $(GRAPH_FILE) $(basename $(GRAPH_FILE)).data 10 0.85 0.95 0.05 0.5 0.5 1
 STUDY_OUTPUT	:= datastudy *.Rout
 
 all: $(DEBUG_OUTPUT) $(RELEASE_OUTPUT)

@@ -25,6 +25,18 @@ typedef struct s_matrix
 } matrix;
 
 /**
+ * Clears internal matrix cache.
+ */
+void matrix_cache_clear();
+
+/**
+ * Initialize internal matrix cache for subgraph generation.
+ * @param m The original matrix.
+ * @return 0 on success, -1 on error.
+ */
+int matrix_cache_init(const matrix *m);
+
+/**
  * Frees a matrix.
  * If the matrix is NULL, nothing happens.
  * @param m The matrix.
@@ -38,11 +50,10 @@ void matrix_destroy(matrix *m);
  * The bitset must have enough space to store the number of vertices of the src matrix.
  * @param dst The destination matrix.
  * @param src The source matrix.
- * @param n The number of vertices to remove.
+ * @param r The ratio of vertices to remove.
  * @param removed_set The set of removed vertices.
- * @return -1 on error, 0 otherwise.
  */
-int matrix_generate_subgraph(matrix *dst, const matrix *src, u32 n, bitset *removed_set);
+void matrix_generate_subgraph(matrix *dst, const matrix *src, f64 r, bitset *removed_set);
 
 /**
  * Initializes a new matrix from a file.

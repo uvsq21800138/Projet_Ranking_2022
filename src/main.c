@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include "dataset.h"
 #include "pagerank.h"
 #include "parser.h"
-#include "vect.h"
 #include "utils.h"
-
-#define EPSILON 1e-6
 
 /**
  * Prints a usage message.
@@ -17,156 +15,54 @@
 static int show_usage(const char *binary_name)
 {
 	fprintf(stderr,
-		"Usage: %s <input_file> <output_file> <n> <r> <alpha>\n"
+		"Usage: %s <input_file> <output_file> <n> <alpha_min> <alpha_max> <alpha_count> <r_min> <r_max> <r_count>\n"
 		"  <input_file>   The file where the graph is stored.\n"
 		"  <output_file>  The file where the results will be stored.\n"
-		"  <n>            The number of subgraphs to generate.\n"
-		"  <r>            The ratio of the number of vertices to remove.\n"
-		"  <alpha>        The alpha value to use\n\n"
-		"Example: %s graph.txt output.data 10 0.5 0.85\n"
+		"  <n>            The sample size.\n"
+		"  <alpha_min>    The minimum alpha value to use.\n"
+		"  <alpha_max>    The maximum alpha value to use (inclusive).\n"
+		"  <alpha_step>   The step size for each alpha value.\n"
+		"  <r_min>        The minimum ratio of the number of vertices to remove.\n"
+		"  <r_max>        The maximum ratio of the number of vertices to remove (inclusive).\n"
+		"  <r_step>       The step size for each ratio.\n\n"
+		"Example: %s graph.txt output.data 10 0.85 0.95 0.05 0.5 0.5 1\n"
 		"  -> Generates 10 subgraphs from the graph.txt file by removing half of the vertices\n"
-		"  -> Then it will run PageRank for the following alpha values: 0.85\n"
+		"  -> Then it will run PageRank for the following alpha values: 0.85 0.9 0.95\n"
 		"  -> The results will be stored in output.data\n"
 		"  -> Each line contains the following informations:\n"
-		"     alpha pagerank_iterations custom_pagerank_iterations proportion_of_removed_vertices proportion_of_removed_edges proportion_of_empty_pages\n",
+		"     alpha pagerank_iterations_acceleration proportion_of_removed_vertices proportion_of_removed_edges\n",
 		binary_name, binary_name);
 	return EXIT_FAILURE;
 }
 
-/**
- * Generates the output file.
- * @param output_file The file where the results will be stored.
- * @param m The matrix of the orginal graph.
- * @param n The number of subgraphs to generate.
- * @param removed_vertices_count The number of vertices to remove.
- * @param alpha The alpha values to use.
- */
-static void generate_data(FILE *output_file, const matrix *m, u32 n, u32 removed_vertices_count, f64 alpha)
-{
-	u32 vc = m->vertices_count;
-	usize init_pi_size = vc;
-	usize pi_size = vc - removed_vertices_count;
-
-	f64 *init_pi = malloc(init_pi_size * sizeof(f64));
-	f64 *pi = malloc(pi_size * sizeof(f64));
-	matrix *subgraph = matrix_init(vc, m->edges_count);
-	bitset *removed_set = malloc(bitset_size(vc) * sizeof(*removed_set));
-
-	if (init_pi && pi && subgraph && removed_set)
-	{
-		srandom(time(NULL) + getpid()); // Avoid same seed
-
-		// We compute the initial PageRank
-		printf("Running PageRank on original graph...");
-		fflush(stdout);
-		vect_set(init_pi, vc, 1.0 / vc);
-		s32 pagerank_iterations = pagerank(m, alpha, EPSILON, init_pi);
-		if (pagerank_iterations < 0)
-		{
-			putchar('\n');
-			print_error("pagerank", NULL);
-		}
-		else
-		{
-			printf(" Done in %d iterations.\n", pagerank_iterations);
-
-			// Then we generate n subgraphs and compute their PageRank
-			printf("Generating %u subgraph%s with %u removed %s...\n", n, (n > 1 ? "s": ""),
-				removed_vertices_count, (removed_vertices_count > 1 ? "vertices" : "vertex"));
-			f64 percent_factor = 100.0 / (2 * n);
-			f64 percent = 0;
-			for (u32 i = 0; i < n; ++i)
-			{
-				if (matrix_generate_subgraph(subgraph, m, removed_vertices_count, removed_set) < 0)
-				{
-					print_error("matrix_generate_subgraph", NULL);
-					break ;
-				}
-
-				// Computes original PageRank
-				vect_set(pi, pi_size, 1.0 / pi_size);
-				s32 pagerank_iterations = pagerank(subgraph, alpha, EPSILON, pi);
-				if (pagerank_iterations < 0)
-				{
-					print_error("pagerank", NULL);
-					break ;
-				}
-
-				// Prints the progress indicator
-				percent += percent_factor;
-				printf("\r%.2lf%%", percent);
-				fflush(stdout);
-
-				u32 number_of_empty_pages = 0;
-				for (u32 j = 0; j < subgraph->vertices_count; ++j)
-					if (!matrix_row_count(subgraph, j))
-						++number_of_empty_pages;
-
-				// Sum of non removed vertices
-				f64 s = 0;
-				for (u32 j = 0; j < vc; ++j)
-					if (!bitset_is_set(removed_set, j))
-						s += init_pi[j];
-
-				// Normalization
-				for (u32 j = 0, k = 0; j < vc; ++j)
-					if (!bitset_is_set(removed_set, j))
-						pi[k++] = init_pi[j] / s;
-
-				// Computes PageRank using the custom initial vector
-				s32 iterations = pagerank(subgraph, alpha, EPSILON, pi);
-				if (iterations < 0)
-				{
-					print_error("pagerank", NULL);
-					break ;
-				}
-
-				// Write the results to the output file
-				fprintf(output_file, "%lg %d %d %lg %lg %lg\n", alpha, pagerank_iterations,
-					iterations, (f64)removed_vertices_count / vc,
-					(f64)(m->edges_count - subgraph->edges_count) / m->edges_count,
-					(f64)number_of_empty_pages / subgraph->vertices_count);
-
-				// Prints the progress indicator
-				percent += percent_factor;
-				printf("\r%.2lf%%", percent);
-				fflush(stdout);
-			}
-			puts("\rDone!  ");
-		}
-	}
-	else
-		print_error("generate_data", NULL);
-
-	free(init_pi);
-	free(pi);
-	free(subgraph);
-	free(removed_set);
-}
-
 int main(int ac, char **av)
 {
-	if (ac != 6) // Not enough arguments
+	if (ac != 10) // Not enough arguments
 		return ac ? show_usage(*av) : EXIT_FAILURE;
+
+	// Initializes the random number generator
+	srandom(time(NULL) + getpid()); // Avoid same seed
 
 	// Parse arguments
 	int errors_count = 0;
 	FILE *input_file = parse_file(av[1], "r", &errors_count);
-	FILE *output_file = parse_file(av[2], "a", &errors_count);
-	u32 n = parse_number_of_subgraphs(av[3], &errors_count);
-	f64 r = parse_ratio(av[4], &errors_count);
-	f64 alpha = parse_ratio(av[5], &errors_count);
-	matrix *m = input_file ? parse_matrix(av[1], input_file, &errors_count) : NULL;
-	u32 removed_vertices_count = m ? m->vertices_count * r : 0;
+	FILE *output_file = parse_file(av[2], "w", &errors_count);
+	u32 n = parse_non_negative(av[3], &errors_count);
+	frange alpha = parse_range(av[4], av[5], av[6], &errors_count);
+	frange r = parse_range(av[7], av[8], av[9], &errors_count);
+	matrix *m = input_file && !errors_count ? parse_matrix(av[1], input_file, &errors_count) : NULL;
+	if (m && m->vertices_count * r.end == m->vertices_count)
+		errors_count += print_error(av[8], "The given ratio is too high");
 
-	if (m && removed_vertices_count == m->vertices_count)
-		errors_count += print_error("r", "The given ratio is too high");
 	if (errors_count)
 		fprintf(stderr, "%d error%s found.\n", errors_count, (errors_count > 1 ? "s" : ""));
+	else if (dataset_init(m, &alpha) < 0)
+		print_error("dataset_init", NULL);
 	else // We can run PageRank
-		generate_data(output_file, m, n, removed_vertices_count, alpha);
+		generate_dataset(output_file, n, &r);
 
 	// Final cleanup
+	dataset_clear();
 	if (input_file)
 		fclose(input_file);
 	if (output_file)

@@ -1,4 +1,10 @@
+#include <string.h>
 #include "vect.h"
+
+f64 *vect_copy(f64 *dst, const f64 *src, usize n)
+{
+	return memcpy(dst, src, n * sizeof(f64));
+}
 
 void vect_mul_add_f64(f64 *v, usize n, f64 f, f64 g)
 {

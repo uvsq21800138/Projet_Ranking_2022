@@ -6,6 +6,9 @@
 #include "macros.h"
 #include "matrix.h"
 
+static u32 *g_vertices_set = NULL;
+static u32 *g_edges_count_set = NULL;
+
 /**
  * Initiliazes an edge from a stream.
  * @param e The edge to initialize.
@@ -31,76 +34,82 @@ static void edge_init(edge *e, u32 y, f64 w)
 	e->w = w;
 }
 
+void matrix_cache_clear()
+{
+	free(g_vertices_set);
+	free(g_edges_count_set);
+	g_vertices_set = NULL;
+	g_edges_count_set = NULL;
+}
+
+int matrix_cache_init(const matrix *m)
+{
+	g_vertices_set = malloc(m->vertices_count * sizeof(*g_vertices_set));
+	g_edges_count_set = malloc(m->vertices_count * sizeof(*g_edges_count_set));
+	if (!g_vertices_set || !g_edges_count_set)
+	{
+		matrix_cache_clear();
+		return -1;
+	}
+	return 0;
+}
+
 void matrix_destroy(matrix *m)
 {
 	free(m);
 }
 
-int matrix_generate_subgraph(matrix *dst, const matrix *src, u32 n, bitset *removed_set)
+void matrix_generate_subgraph(matrix *dst, const matrix *src, f64 r, bitset *removed_set)
 {
-	assert(n <= src->vertices_count);
-
-	// Allocates sets
-	const u32 m = src->vertices_count;
-	u32 *vertices_set = malloc(m * sizeof(*vertices_set));
-	u32 *edges_count_set = malloc(m * sizeof(*edges_count_set));
-	if (!vertices_set || !edges_count_set)
-	{
-		free(vertices_set);
-		free(edges_count_set);
-		return -1;
-	}
+	const u32 vc = src->vertices_count;
+	const u32 n = r * vc;
+	assert(n <= vc);
 
 	// Initialize the set of vertices to remove
-	for (u32 i = 0; i < m; ++i)
-		vertices_set[i] = i; // All vertices are initially in the set
+	for (u32 i = 0; i < vc; ++i)
+		g_vertices_set[i] = i; // All vertices are initially in the set
 	// All vertices are initially not removed
-	bitset_reset(removed_set, m);
+	bitset_reset(removed_set, vc);
 
 	// We select vertices to remove randomly
 	for (u32 i = 0; i < n; ++i)
 	{
 		// Removed vertices are stored on the left side of the array
-		usize j = (random() % (m - i)) + i; // Selection on the right side of the array
-		SWAP(vertices_set[i], vertices_set[j]);
-		bitset_set(removed_set, vertices_set[i]); // Mark the vertex as removed
+		usize j = (random() % (vc - i)) + i; // Selection on the right side of the array
+		SWAP(g_vertices_set[i], g_vertices_set[j]);
+		bitset_set(removed_set, g_vertices_set[i]); // Mark the vertex as removed
 	}
 
-	dst->vertices_count = m - n;
+	dst->vertices_count = vc - n;
 	// We have to computes the number of edges first
 	const edge *it, *end;
 	dst->edges_count = 0;
-	for (u32 i = 0; i < m; ++i)
+	for (u32 i = 0; i < vc; ++i)
 	{
-		edges_count_set[i] = 0; // Initialize the number of edges for each vertex
+		g_edges_count_set[i] = 0; // Initialize the number of edges for each vertex
 		if (!bitset_is_set(removed_set, i))
 			for (it = matrix_row(src, i), end = it + matrix_row_count(src, i); it < end; ++it)
 				if (!bitset_is_set(removed_set, it->y))
-					++edges_count_set[i];
-		dst->edges_count += edges_count_set[i];
+					++g_edges_count_set[i];
+		dst->edges_count += g_edges_count_set[i];
 	}
 	// We computes the new vertices indexes because we removed some of them (avoid gaps in our new graph)
-	for (u32 i = 0, j = 0; i < m; ++i)
+	for (u32 i = 0, j = 0; i < vc; ++i)
 		if (!bitset_is_set(removed_set, i))
-			vertices_set[i] = j++;
+			g_vertices_set[i] = j++;
 	// Then we store the new edges in the new matrix with their new normalized weights
-	for (u32 i = 0, row_start_index = 0; i < m; ++i)
+	for (u32 i = 0, row_start_index = 0; i < vc; ++i)
 		if (!bitset_is_set(removed_set, i))
 		{
-			dst->row_start[vertices_set[i]] = row_start_index;
+			dst->row_start[g_vertices_set[i]] = row_start_index;
 			edge *it2;
 			for (it = matrix_row(src, i), end = it + matrix_row_count(src, i),
 				it2 = dst->edges + row_start_index; it < end; ++it)
 				if (!bitset_is_set(removed_set, it->y))
-					edge_init(it2++, vertices_set[it->y], 1.0 / edges_count_set[i]);
-			row_start_index += edges_count_set[i];
+					edge_init(it2++, g_vertices_set[it->y], 1.0 / g_edges_count_set[i]);
+			row_start_index += g_edges_count_set[i];
 		}
 	dst->row_start[dst->vertices_count] = dst->edges_count;
-
-	// Final cleanup
-	free(vertices_set);
-	free(edges_count_set);
-	return 0;
 }
 
 matrix *matrix_init_from_file(FILE *f)

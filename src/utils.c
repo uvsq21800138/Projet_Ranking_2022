@@ -10,7 +10,13 @@ const char *get_errno_error()
 	return strerror(errno);
 }
 
-int parse_f64(const char *str, f64 *f)
+int print_error(const char *context, const char *message)
+{
+	fprintf(stderr, "error: %s: %s\n", context, (message ? message : get_errno_error()));
+	return 1;
+}
+
+int stof64(const char *str, f64 *f)
 {
 	char *end;
 	errno = 0;
@@ -20,7 +26,7 @@ int parse_f64(const char *str, f64 *f)
 	return -(errno != 0);
 }
 
-int parse_u32(const char *str, u32 *u)
+int stou32(const char *str, u32 *u)
 {
 	u64 n;
 	char *end;
@@ -32,10 +38,4 @@ int parse_u32(const char *str, u32 *u)
 		errno = ERANGE;
 	*u = n;
 	return -(errno != 0);
-}
-
-int print_error(const char *context, const char *message)
-{
-	fprintf(stderr, "error: %s: %s\n", context, (message ? message : get_errno_error()));
-	return 1;
 }
