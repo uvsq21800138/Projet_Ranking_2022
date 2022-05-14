@@ -97,10 +97,10 @@ int dataset_init(const matrix *m, const frange *alpha)
 	frange_copy(&a, alpha);
 	frange_init(&p, 0, 1, 1.0 / alpha->count);
 	print_progression(&p);
+  vect_set(g_pi_cache, alpha->count * n, 1.0 / n);
 	fflush(stdout);
 	while (frange_has_next(&a))
 	{
-		vect_set(g_pi_cache, alpha->count * n, 1.0 / n);
 		f64 alpha = frange_next(&a);
 		*iter = pagerank(m, pi, alpha);
 		print_progression(&p);
