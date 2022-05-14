@@ -15,7 +15,7 @@
 static int show_usage(const char *binary_name)
 {
 	fprintf(stderr,
-		"Usage: %s <input_file> <output_file> <n> <alpha_min> <alpha_max> <alpha_count> <r_min> <r_max> <r_count>\n"
+		"Usage: %s <input_file> <output_file> <n> <alpha_min> <alpha_max> <alpha_step> <r_min> <r_max> <r_step>\n"
 		"  <input_file>   The file where the graph is stored.\n"
 		"  <output_file>  The file where the results will be stored.\n"
 		"  <n>            The sample size.\n"

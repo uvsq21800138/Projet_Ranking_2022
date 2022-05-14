@@ -89,7 +89,8 @@ int dataset_init(const matrix *m, const frange *alpha)
 	}
 
 	// We compute the initial PageRank for each alpha value.
-	printf("Running PageRank on original graph with %u alpha values...\n", alpha->count);
+	printf("Running PageRank on original graph with %u alpha value%s...\n",
+		alpha->count, (alpha->count > 1) ? "s" : "");
 	frange a, p;
 	f64 *pi = g_pi_cache;
 	u32 *iter = g_iter_cache;
@@ -119,7 +120,6 @@ void generate_dataset(FILE *output_file, u32 n, const frange *r)
 	usize subgraphs_count = (usize)r->count * n;
 	frange p, alpha, removed_ratio;
 	frange_init(&p, 0, 1, 1.0 / (2 * subgraphs_count * g_alpha->count));
-	printf("removed ratio count: %u\n", r->count);
 	printf("Generating dataset with %lu subgraph%s...\n", subgraphs_count,
 		(subgraphs_count > 1 ? "s": ""));
 	print_progression(&p);
