@@ -45,7 +45,7 @@ make -j
 mkdir -p datastudy
 
 # <= 1M
-run_batch_alpha 'wb-cs-stanford' 500 0.01
+run_batch_alpha 'wb-cs-stanford' 100 0.01
 run_batch_ratio 'wb-cs-stanford' 10 0.01
 # <= 50M
 run_batch_alpha 'Stanford' 100 0.02
