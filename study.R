@@ -13,10 +13,14 @@ plots_for_one_graph <- function(name, id){
     #acceleration = V2
     #ratioSommetsDetruits = V3
     #ratioArcsDetruits = V4
+
+    lowY = min(data$V2)
+    highY = max(data$V2)
     
     plot(data080$V3, data080$V2, 
          pch = 20,
          cex = 0.5,
+         ylim = c(lowY, highY),
          xlab = "Ratio de sommets détruits",
          ylab = "Accélération de l'algorithme custom (%)",
          col = "blue",
@@ -28,9 +32,13 @@ plots_for_one_graph <- function(name, id){
     lines(lowess(data090$V3, data090$V2, f = 0.3), col = "red")
 
     # Ratio d'arcs détruits
+    lowY = min(data$V4)
+    highY = max(data$V4)
+
     plot(data080$V3, data080$V4, 
          pch = 20,
          cex = 0.5,
+         ylim = c(lowY, highY),
          xlab = "Ratio de sommets détruits",
          ylab = "Ratio d'arcs détruits",
          col = "blue",
@@ -52,9 +60,13 @@ plots_for_one_graph <- function(name, id){
     #ratioSommetsDetruits = V3
     #ratioArcsDetruits = V4
 
+    lowY = min(data$V2)
+    highY = max(data$V2)
+
     plot(data005$V1, data005$V2, 
          pch = 20,
          cex = 0.5,
+         ylim = c(lowY, highY),
          xlab = "Alpha",
          ylab = "Accélération de l'algorithme custom (%)",
          col = "blue",
