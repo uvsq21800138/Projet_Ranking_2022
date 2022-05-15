@@ -5,65 +5,65 @@ nbGraphes <- 6
 plots_for_one_graph <- function(name, id){
     # Ratio de sommets détruits
     data = read.table(paste0("datastudy/", name, "_ratio.data"))
-    attach(data)
+    data080 <- data[data$V1 == 0.8,]
+    data085 <- data[data$V1 == 0.85,]
+    data090 <- data[data$V1 == 0.9,]
 
-    alpha = V1
-    acceleration = V2
-    ratioSommetsDetruits = V3
-    ratioArcsDetruits = V4
-
-    data[data$alpha == 0.80,]
+    #alpha = V1
+    #acceleration = V2
+    #ratioSommetsDetruits = V3
+    #ratioArcsDetruits = V4
     
-    plot(ratioSommetsDetruits, acceleration, 
+    plot(data080$V3, data080$V2, 
          pch = 20,
          cex = 0.5,
          xlab = "Ratio de sommets détruits",
          ylab = "Accélération de l'algorithme custom (%)",
          col = "blue",
          main = paste0(name, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à : bleu = 0.80, vert = 0.85, rouge = 0.90"))
-    lines(lowess(ratioSommetsDetruits, acceleration, f = 0.3), col = "blue")
-    data[data$alpha == 0.85,]
-    points(ratioSommetsDetruits, acceleration, pch = 20, cex = 0.5, col = "green")
-    lines(lowess(ratioSommetsDetruits, acceleration, f = 0.3), col = "green")
-    data[data$alpha == 0.90,]
-    points(ratioSommetsDetruits, acceleration, pch = 20, cex = 0.5, col = "red")
-    lines(lowess(ratioSommetsDetruits, acceleration, f = 0.3), col = "red")
+    lines(lowess(data080$V3, data080$V2, f = 0.3), col = "blue")
+    points(data085$V3, data085$V2, pch = 20, cex = 0.5, col = "green")
+    lines(lowess(data085$V3, data085$V2, f = 0.3), col = "green")
+    points(data090$V3, data090$V2, pch = 20, cex = 0.5, col = "red")
+    lines(lowess(data090$V3, data090$V2, f = 0.3), col = "red")
 
     # Ratio d'arcs détruits
-    plot(ratioSommetsDetruits, ratioArcsDetruits, 
+    plot(data080$V3, data080$V4, 
          pch = 20,
          cex = 0.5,
          xlab = "Ratio de sommets détruits",
          ylab = "Ratio d'arcs détruits",
          col = "blue",
          main = paste0(name, " (", id, "/", nbGraphes, ")", "\nAlpha fixé à : bleu = 0.80, vert = 0.85, rouge = 0.90"))
-    lines(lowess(ratioSommetsDetruits, ratioArcsDetruits), col = "blue")
-    points(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, col = "green")
-    lines(lowess(ratioSommetsDetruits, ratioArcsDetruits, f = 0.3), col = "green")
-    points(ratioSommetsDetruits, ratioArcsDetruits, pch = 20, cex = 0.5, col = "red")
-    lines(lowess(ratioSommetsDetruits, ratioArcsDetruits, f = 0.3), col = "red")
+    lines(lowess(data080$V3, data080$V4), col = "blue")
+    points(data085$V3, data085$V4, pch = 20, cex = 0.5, col = "green")
+    lines(lowess(data085$V3, data085$V4, f = 0.3), col = "green")
+    points(data090$V3, data090$V4, pch = 20, cex = 0.5, col = "red")
+    lines(lowess(data090$V3, data090$V4, f = 0.3), col = "red")
 
     # Alpha
     data = read.table(paste0("datastudy/", name, "_alpha.data"))
-    attach(data)
+    data005 <- data[data$V3 == 0.05,]
+    data010 <- data[data$V3 == 0.1,]
+    data015 <- data[data$V3 == 0.15,]
 
-    alpha = V1
-    acceleration = V2
-    ratioSommetsDetruits = V3
-    ratioArcsDetruits = V4
+    #alpha = V1
+    #acceleration = V2
+    #ratioSommetsDetruits = V3
+    #ratioArcsDetruits = V4
 
-    plot(alpha, nbIterationsPagerank, 
+    plot(data005$V1, data005$V2, 
          pch = 20,
          cex = 0.5,
          xlab = "Alpha",
          ylab = "Accélération de l'algorithme custom (%)",
          col = "blue",
          main = paste0(name, " (", id, "/", nbGraphes, ")", "\nRatio fixé à : bleu = 0.05, vert = 0.10, rouge = 0.15"))
-    lines(lowess(alpha, nbIterationsPagerank, f = 0.3), col = "blue")
-    points(alpha, nbIterationsCustom, pch = 20, cex = 0.5, col = "green")
-    lines(lowess(alpha, nbIterationsCustom, f = 0.3), col = "green")
-    points(alpha, nbIterationsCustom, pch = 20, cex = 0.5, col = "red")
-    lines(lowess(alpha, nbIterationsCustom, f = 0.3), col = "red")
+    lines(lowess(data005$V1, data005$V2, f = 0.3), col = "blue")
+    points(data010$V1, data010$V2, pch = 20, cex = 0.5, col = "green")
+    lines(lowess(data010$V1, data010$V2, f = 0.3), col = "green")
+    points(data015$V1, data015$V2, pch = 20, cex = 0.5, col = "red")
+    lines(lowess(data015$V1, data015$V2, f = 0.3), col = "red")
 }
 
 # Main
