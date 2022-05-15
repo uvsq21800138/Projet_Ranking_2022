@@ -30,6 +30,7 @@ plots_for_one_graph <- function(name, id){
     lines(lowess(data085$ratioSommetsDetruits, data085$acc, f = lowess_f), col = "green")
     points(data090$ratioSommetsDetruits, data090$acc, pch = 20, cex = 0.5, col = "red")
     lines(lowess(data090$ratioSommetsDetruits, data090$acc, f = lowess_f), col = "red")
+    abline(h = 0, f = 0.3, col = "black")
     legend("topright", legend=paste("alpha=", c("0.80", "0.85", "0.90")), lty="solid", col=c("blue", "green", "red"))
 
     #Ratio d'arcs détruits
@@ -67,6 +68,7 @@ plots_for_one_graph <- function(name, id){
     lines(lowess(data010$alpha, data010$acc, f = lowess_f), col = "green")
     points(data015$alpha, data015$acc, pch = 20, cex = 0.5, col = "red")
     lines(lowess(data015$alpha, data015$acc, f = lowess_f), col = "red")
+    abline(h = 0, f = 0.3, col = "black")
     legend("topright", legend=paste("ratio=", c("0.05", "0.10", "0.15")), lty="solid", col=c("blue", "green", "red"))
 }
 
