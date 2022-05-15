@@ -33,14 +33,23 @@ plots_for_one_graph <- function(name, id){
     abline(h = 0, f = lowess_f, col = "black")
     legend("topright", legend=paste("alpha=", c("0.80", "0.85", "0.90")), lty="solid", col=c("blue", "green", "red"))
 
-    #Ratio d'arcs détruits
-    plot(data$ratioSommetsDetruits, data$ratioArcsDetruits, 
+    # Ratio d'arcs détruits
+    plot(data080$ratioArcsDetruits, data080$acc, 
          pch = 20,
          cex = 0.5,
-         xlab = "Ratio de sommets détruits",
-         ylab = "Ratio d'arcs détruits",
-         main = paste0(name, " (", id, "/", nbGraphes, ")", "\nArcs détruits vs. sommets détruits"))
-    lines(lowess(data$ratioSommetsDetruits, data$ratioArcsDetruits))
+         xlim = c(lowX, highX),
+         ylim = c(lowY, highY),
+         xlab = "Ratio d'arcs détruits",
+         ylab = "Accélération de l'algorithme custom (%)",
+         col = "blue",
+         main = paste0(name, " (", id, "/", nbGraphes, ")", "\nAccélération custom vs. arcs détruits"))
+    lines(lowess(data080$ratioArcsDetruits, data080$acc, f = lowess_f), col = "blue")
+    points(data085$ratioArcsDetruits, data085$acc, pch = 20, cex = 0.5, col = "green")
+    lines(lowess(data085$ratioArcsDetruits, data085$acc, f = lowess_f), col = "green")
+    points(data090$ratioArcsDetruits, data090$acc, pch = 20, cex = 0.5, col = "red")
+    lines(lowess(data090$ratioArcsDetruits, data090$acc, f = lowess_f), col = "red")
+    abline(h = 0, f = lowess_f, col = "black")
+    legend("topright", legend=paste("alpha=", c("0.80", "0.85", "0.90")), lty="solid", col=c("blue", "green", "red"))
 
     # Alpha
     data = read.table(paste0("datastudy/", name, "_alpha.data"))

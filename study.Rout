@@ -54,14 +54,23 @@ Type 'q()' to quit R.
 +     abline(h = 0, f = lowess_f, col = "black")
 +     legend("topright", legend=paste("alpha=", c("0.80", "0.85", "0.90")), lty="solid", col=c("blue", "green", "red"))
 + 
-+     #Ratio d'arcs détruits
-+     plot(data$ratioSommetsDetruits, data$ratioArcsDetruits, 
++     # Ratio d'arcs détruits
++     plot(data080$ratioArcsDetruits, data080$acc, 
 +          pch = 20,
 +          cex = 0.5,
-+          xlab = "Ratio de sommets détruits",
-+          ylab = "Ratio d'arcs détruits",
-+          main = paste0(name, " (", id, "/", nbGraphes, ")", "\nArcs détruits vs. sommets détruits"))
-+     lines(lowess(data$ratioSommetsDetruits, data$ratioArcsDetruits))
++          xlim = c(lowX, highX),
++          ylim = c(lowY, highY),
++          xlab = "Ratio d'arcs détruits",
++          ylab = "Accélération de l'algorithme custom (%)",
++          col = "blue",
++          main = paste0(name, " (", id, "/", nbGraphes, ")", "\nAccélération custom vs. arcs détruits"))
++     lines(lowess(data080$ratioArcsDetruits, data080$acc, f = lowess_f), col = "blue")
++     points(data085$ratioArcsDetruits, data085$acc, pch = 20, cex = 0.5, col = "green")
++     lines(lowess(data085$ratioArcsDetruits, data085$acc, f = lowess_f), col = "green")
++     points(data090$ratioArcsDetruits, data090$acc, pch = 20, cex = 0.5, col = "red")
++     lines(lowess(data090$ratioArcsDetruits, data090$acc, f = lowess_f), col = "red")
++     abline(h = 0, f = lowess_f, col = "black")
++     legend("topright", legend=paste("alpha=", c("0.80", "0.85", "0.90")), lty="solid", col=c("blue", "green", "red"))
 + 
 +     # Alpha
 +     data = read.table(paste0("datastudy/", name, "_alpha.data"))
@@ -100,11 +109,15 @@ Warning messages:
   "f" is not a graphical parameter
 2: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
+3: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
+  "f" is not a graphical parameter
 > plots_for_one_graph("Stanford", 2)
 Warning messages:
 1: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
 2: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
+  "f" is not a graphical parameter
+3: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
 > plots_for_one_graph("Stanford_BerkeleyV2", 3)
 Warning messages:
@@ -112,11 +125,15 @@ Warning messages:
   "f" is not a graphical parameter
 2: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
+3: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
+  "f" is not a graphical parameter
 > plots_for_one_graph("in-2004v2", 4)
 Warning messages:
 1: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
 2: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
+  "f" is not a graphical parameter
+3: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
 > plots_for_one_graph("wikipedia-20051105V2", 5)
 Warning messages:
@@ -124,11 +141,15 @@ Warning messages:
   "f" is not a graphical parameter
 2: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
+3: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
+  "f" is not a graphical parameter
 > plots_for_one_graph("wb-edu", 6)
 Warning messages:
 1: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
 2: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
+  "f" is not a graphical parameter
+3: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
 > plots_for_one_graph("merged", 0)
 Warning messages:
@@ -136,7 +157,9 @@ Warning messages:
   "f" is not a graphical parameter
 2: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
   "f" is not a graphical parameter
+3: In int_abline(a = a, b = b, h = h, v = v, untf = untf, ...) :
+  "f" is not a graphical parameter
 > 
 > proc.time()
    user  system elapsed 
-  0.267   0.044   0.281 
+  0.287   0.041   0.297 
