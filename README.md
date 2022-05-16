@@ -37,7 +37,7 @@ Génère la documentation du programme. L'ensemble des fichiers sources est docu
 
 ## Etude
 ```bash
-./script.bash
+./make_study.sh
 ```
 
 Génère les graphiques de l'étude demandée d'après le sujet en exécutant le programme pour une série de paramètres prévus. Exécuter cette commande peut prendre beaucoup de temps.
