@@ -52,8 +52,9 @@ Mkfile.old
 dkms.conf
 
 # Non-source files
-data/
-datastydy/
-doc/doxygen/
+.build
+data
+datastudy
+doc/doxygen
 ranking_debug
 ranking_release

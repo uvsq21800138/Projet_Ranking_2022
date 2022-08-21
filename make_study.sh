@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Constants
 input_dir=data
 output_dir=datastudy
@@ -13,7 +15,11 @@ r_static=0.05
 function run_study
 {
 	input="$input_dir/$1.txt"
+	input_archive="$input.7z"
 	output="$output_dir/$2.data"
+	if [ ! -f $input ]; then
+		7z e -o$input_dir $input_archive
+	fi
 	./ranking_release $input $output $3 $4 $5 $6 $7 $8 $9
 }
 
@@ -42,7 +48,8 @@ if [ ! -d $input_dir ]; then
 	exit 1
 fi
 make -j
-mkdir -p datastudy
+rm -rf $output_dir
+mkdir $output_dir
 
 # <= 1M
 run_batch_alpha 'wb-cs-stanford' 100 0.01
